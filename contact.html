@@ -48,7 +48,7 @@
     <div>
       <span class="eyebrow">Apply To Join</span>
       <h2 id="apply" style="color:#fff;font-size:clamp(24px,3.4vw,32px);margin-bottom:16px">Fly with VAIA</h2>
-      <p style="color:var(--text-dim);margin-bottom:22px">We're recruiting display pilots, formation candidates, and ground/ATC liaison support. Email us with your VATSIM CID, flight hours, and any formation experience — we'll get back to you about work-up training.</p>
+      <p style="color:var(--text-dim);margin-bottom:22px">We're recruiting display pilots, formation candidates, and ground/ATC liaison support. Fill in the application below and it'll open a pre-filled email straight to the team — or reach us directly.</p>
 
       <div class="info-block">
         <h3>EMAIL</h3>
@@ -59,19 +59,82 @@
         <h3>DISCORD</h3>
         <p style="color:var(--text-dim)">Community server coming soon — invite link to be added here.</p>
       </div>
-
-      <div class="info-block">
-        <h3>WHAT TO INCLUDE</h3>
-        <ul>
-          <li>Your VATSIM CID</li>
-          <li>Simulator &amp; aircraft experience (formation flying a plus)</li>
-          <li>Availability for practice sessions</li>
-          <li>Preferred role: Display Pilot / Ground Support / ATC Liaison</li>
-        </ul>
-      </div>
     </div>
 
     <div class="img-frame"><img src="assets/img/hangar-banner.png" alt="VAIA hangar operations"></div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <div class="section-hdr">
+      <span class="eyebrow">Display Application</span>
+      <h2>Apply to fly or crew</h2>
+      <p>Submitting opens your email client with everything below pre-filled and addressed to the team — nothing is sent automatically, so you can review it first.</p>
+    </div>
+
+    <form id="apply-form" class="form-card" data-to="angusjones185@gmail.com" novalidate>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="cid">VATSIM CID *</label>
+          <input type="text" inputmode="numeric" id="cid" name="cid" placeholder="e.g. 1234567" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="discord">Discord Username <span class="hint">(optional)</span></label>
+          <input type="text" id="discord" name="discord" placeholder="username">
+        </div>
+        <div class="form-field">
+          <label for="simulator">Primary Simulator</label>
+          <select id="simulator" name="simulator">
+            <option>Microsoft Flight Simulator 2024</option>
+            <option>Microsoft Flight Simulator 2020</option>
+            <option>X-Plane 12</option>
+            <option>Prepar3D</option>
+            <option>Other / Multiple</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="availability">Availability <span class="hint">(optional)</span></label>
+          <input type="text" id="availability" name="availability" placeholder="e.g. Saturdays 19:00 AEST">
+        </div>
+
+        <div class="form-field full">
+          <label>Role(s) You're Applying For *</label>
+          <div class="checkbox-row">
+            <label class="checkbox-pill"><input type="checkbox" name="role" value="Formation Display Pilot"> Formation Display Pilot</label>
+            <label class="checkbox-pill"><input type="checkbox" name="role" value="Aerobatic Solo Pilot"> Aerobatic Solo Pilot</label>
+            <label class="checkbox-pill"><input type="checkbox" name="role" value="Reserve / Work-up Pilot"> Reserve / Work-up Pilot</label>
+            <label class="checkbox-pill"><input type="checkbox" name="role" value="Ground / Marshalling Support"> Ground / Marshalling Support</label>
+            <label class="checkbox-pill"><input type="checkbox" name="role" value="ATC Liaison"> ATC Liaison</label>
+          </div>
+        </div>
+
+        <div class="form-field full">
+          <label for="experience">Formation / Display Experience *</label>
+          <textarea id="experience" name="experience" placeholder="Flight hours, aircraft types, prior formation or airshow experience, VATSIM history…" required></textarea>
+        </div>
+
+        <div class="form-field full">
+          <label for="notes">Additional Notes <span class="hint">(optional)</span></label>
+          <textarea id="notes" name="notes" placeholder="Anything else we should know"></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-gold">Submit Application</button>
+        <span id="apply-status" class="form-status"></span>
+      </div>
+    </form>
+
+    <div class="note-box"><strong>How this works:</strong> this is a static site with no backend, so "Submit" builds a pre-filled email from your answers and hands it to your email client to send — nothing leaves your browser automatically. If you'd rather collect these directly into an inbox or spreadsheet without opening the applicant's email client, swap this for a service like Formspree or Netlify Forms.</div>
   </div>
 </section>
 

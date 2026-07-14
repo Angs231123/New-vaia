@@ -38,4 +38,49 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('year')?.replaceChildren(document.createTextNode(new Date().getFullYear()));
+
+  // Display application form -> pre-filled email (no backend required)
+  const appForm = document.getElementById('apply-form');
+  if (appForm) {
+    const statusEl = document.getElementById('apply-status');
+    appForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const val = (id) => (document.getElementById(id)?.value || '').trim();
+      const roles = Array.from(appForm.querySelectorAll('input[name="role"]:checked')).map(el => el.value);
+
+      const required = ['name', 'cid', 'email', 'experience'];
+      const missing = required.filter(id => !val(id));
+      if (missing.length || roles.length === 0) {
+        statusEl.textContent = 'Please fill in your name, CID, email, experience, and pick at least one role.';
+        statusEl.className = 'form-status err';
+        return;
+      }
+
+      const to = appForm.dataset.to || 'angusjones185@gmail.com';
+      const subject = `VAIA Display Application — ${val('name')}`;
+      const lines = [
+        `Name: ${val('name')}`,
+        `VATSIM CID: ${val('cid')}`,
+        `Email: ${val('email')}`,
+        `Discord: ${val('discord') || 'n/a'}`,
+        `Simulator: ${val('simulator')}`,
+        `Role(s) applying for: ${roles.join(', ')}`,
+        `Formation / display experience:`,
+        val('experience'),
+        ``,
+        `Availability:`,
+        val('availability') || 'n/a',
+        ``,
+        `Additional notes:`,
+        val('notes') || 'n/a',
+      ];
+      const body = lines.join('\n');
+      const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      statusEl.textContent = 'Opening your email client to send the application…';
+      statusEl.className = 'form-status ok';
+      window.location.href = mailto;
+    });
+  }
 });
