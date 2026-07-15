@@ -51,13 +51,25 @@ only you have the real data:
 
 ## Deploying
 
-Since it's a static site, GitHub Pages is the easiest option:
+Deployed via GitHub Pages, built automatically by
+`.github/workflows/pages.yml` on every push to `main`.
 
-1. Repo Settings → Pages → Deploy from branch → `main` / root.
-2. Site will be live at `https://<username>.github.io/<repo>/`.
+**Live at: https://vaustralianintlairshow.org**
 
-Any other static host (Netlify, Vercel, Cloudflare Pages, S3) will work
-just as well — just upload the whole folder.
+The `CNAME` file in the repo root points GitHub Pages at that custom
+domain. DNS at the registrar is set to GitHub Pages' addresses:
+
+- Apex `A` records → `185.199.108.153`, `185.199.109.153`,
+  `185.199.110.153`, `185.199.111.153`
+- (optional) `AAAA` records → `2606:50c0:8000::153`, `2606:50c0:8001::153`,
+  `2606:50c0:8002::153`, `2606:50c0:8003::153`
+
+The old `https://angs231123.github.io/New-vaia/` URL still works and
+redirects to the custom domain.
+
+Any other static host (Netlify, Vercel, Cloudflare Pages, S3) would work
+just as well — just upload the whole folder (minus `CNAME`, which is
+GitHub Pages-specific).
 
 ## Logo pack
 
