@@ -7,8 +7,7 @@ export async function onRequestGet({ request, env }) {
   }
   return Response.json({
     loggedIn: true,
-    cid: session.cid,
-    name: session.name || null,
+    username: session.username || null,
     admin: !!session.admin,
   });
 }

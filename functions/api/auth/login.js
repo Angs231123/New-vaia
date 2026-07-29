@@ -1,40 +1,38 @@
-// Redirects the browser to VATSIM Connect to start the login flow.
-//
-// IMPORTANT: the endpoint below (auth.vatsim.net) and the OAuth paths are
-// VATSIM Connect's well-known Laravel Passport-style routes, based on how
-// existing VATSIM community tools integrate with it. This sandbox could
-// not reach vatsim.dev to double-check the current, official values before
-// shipping this — verify against https://vatsim.dev before relying on it
-// in production, and update VATSIM_AUTH_BASE below if it's changed.
+// Plain username/password admin login. Credentials are set as Cloudflare
+// Pages environment variables (ADMIN_USERNAME, ADMIN_PASSWORD) — never
+// hardcode them here.
 
-const VATSIM_AUTH_BASE = "https://auth.vatsim.net";
+import { createSession, sessionCookieHeader } from "../../_utils/session.js";
 
-export async function onRequestGet({ request, env }) {
-  const url = new URL(request.url);
-  const redirectUri = `${url.origin}/api/auth/callback`;
-
-  if (!env.VATSIM_CLIENT_ID) {
-    return new Response(
-      "VATSIM login isn't configured yet — VATSIM_CLIENT_ID is missing. Register an app at https://vatsim.dev and set VATSIM_CLIENT_ID / VATSIM_CLIENT_SECRET in the Cloudflare Pages project's environment variables.",
+export async function onRequestPost({ request, env }) {
+  if (!env.ADMIN_USERNAME || !env.ADMIN_PASSWORD || !env.SESSION_SECRET) {
+    return Response.json(
+      { error: "Admin login isn't configured yet — set ADMIN_USERNAME, ADMIN_PASSWORD and SESSION_SECRET in the Cloudflare Pages project's environment variables." },
       { status: 501 }
     );
   }
 
-  // Random state value, stored in a short-lived cookie, checked on callback to prevent CSRF.
-  const state = crypto.randomUUID();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: "Invalid request" }, { status: 400 });
+  }
 
-  const authorizeUrl = new URL(`${VATSIM_AUTH_BASE}/oauth/authorize`);
-  authorizeUrl.searchParams.set("client_id", env.VATSIM_CLIENT_ID);
-  authorizeUrl.searchParams.set("redirect_uri", redirectUri);
-  authorizeUrl.searchParams.set("response_type", "code");
-  authorizeUrl.searchParams.set("scope", "full_name vatsim_details");
-  authorizeUrl.searchParams.set("state", state);
+  const { username, password } = body || {};
+  if (username !== env.ADMIN_USERNAME || password !== env.ADMIN_PASSWORD) {
+    return Response.json({ error: "Incorrect username or password" }, { status: 401 });
+  }
 
-  return new Response(null, {
-    status: 302,
+  const session = await createSession(
+    { admin: true, username, exp: Date.now() + 1000 * 60 * 60 * 12 },
+    env.SESSION_SECRET
+  );
+
+  return new Response(JSON.stringify({ ok: true }), {
     headers: {
-      Location: authorizeUrl.toString(),
-      "Set-Cookie": `vaia_oauth_state=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+      "Content-Type": "application/json",
+      "Set-Cookie": sessionCookieHeader(session),
     },
   });
 }

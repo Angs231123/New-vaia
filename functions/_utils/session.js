@@ -60,11 +60,3 @@ export async function getSessionFromRequest(request, env) {
   if (!token) return null;
   return verifySession(token, env.SESSION_SECRET);
 }
-
-export function isAdminCid(cid, env) {
-  const list = (env.ADMIN_CIDS || "")
-    .split(",")
-    .map((c) => c.trim())
-    .filter(Boolean);
-  return list.includes(String(cid));
-}

@@ -53,8 +53,18 @@
 
   <div id="locked" class="card">
     <h1>Admin Login</h1>
-    <p class="sub">Log in with your VATSIM account. Only CIDs on the admin allow-list get access — everyone else who logs in just goes back to the homepage.</p>
-    <a href="/api/auth/login" class="btn btn-primary">Login with VATSIM</a>
+    <p class="sub">Enter the admin username and password.</p>
+    <form id="login-form" style="max-width:320px">
+      <div style="margin-bottom:12px">
+        <label style="font-size:0.8rem;color:var(--grey)">Username</label>
+        <input type="text" id="login-username" autocomplete="username" required>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:0.8rem;color:var(--grey)">Password</label>
+        <input type="password" id="login-password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
     <p class="status-msg" id="locked-msg"></p>
   </div>
 
@@ -118,20 +128,45 @@ async function boot() {
   const me = await fetch('/api/auth/me').then(r => r.json()).catch(() => ({ loggedIn: false }));
   if (!me.loggedIn || !me.admin) {
     $('#locked').style.display = 'block';
-    if (me.loggedIn && !me.admin) {
-      $('#locked-msg').textContent = `Logged in as CID ${me.cid}, but that CID isn't on the admin list.`;
-      $('#locked-msg').className = 'status-msg err';
-    }
     return;
   }
+  await enterAdmin(me);
+}
+
+async function enterAdmin(me) {
+  $('#locked').style.display = 'none';
   $('#unlocked').style.display = 'block';
-  $('#who').textContent = `Logged in as ${me.name || 'CID ' + me.cid} (CID ${me.cid})`;
+  $('#who').textContent = `Logged in as ${me.username}`;
 
   performers = await fetch('/api/performers').then(r => r.json()).catch(() => []);
   roster = await fetch('/api/roster').then(r => r.json()).catch(() => []);
   renderPerformers();
   renderRoster();
 }
+
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msgEl = $('#locked-msg');
+  msgEl.textContent = 'Logging in…';
+  msgEl.className = 'status-msg';
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: $('#login-username').value,
+        password: $('#login-password').value,
+      }),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || 'Login failed');
+    msgEl.textContent = '';
+    await enterAdmin({ username: $('#login-username').value });
+  } catch (err) {
+    msgEl.textContent = err.message;
+    msgEl.className = 'status-msg err';
+  }
+});
 
 function renderPerformers() {
   const tbody = $('#performers-table tbody');
