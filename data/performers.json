@@ -1,8 +1,9 @@
 [
   {
+    "image": "assets/img/performers/fsrlts.jpg",
     "icon": "✈️",
-    "title": "[Aerobatic Display Team]",
-    "description": "Formation aerobatics routine — replace with confirmed team name, aircraft type, and pilot count."
+    "title": "FSRLTS",
+    "description": "A community of passionate virtual aviators who strive to emulate the Royal Australian Air Force Roulettes through formation flying and aerobatic display workups within Microsoft Flight Simulator 2020/2024."
   },
   {
     "icon": "🛩️",
