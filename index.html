@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vAIA — Virtual Australian International Airshow</title>
-<meta name="description" content="A community-run virtual recreation of the Australian International Airshow, flown live across MSFS, P3D & X-Plane with real ATC coverage.">
+<meta name="description" content="vAIA brings the excitement of Avalon Airshow to the virtual skies — flying displays, static park, and warbird formations flown by community pilots on Microsoft Flight Simulator with real VATSIM air traffic control.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -219,6 +219,68 @@
   .footer-links { margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
 
   .bg-alt { background: #eef1f6; }
+
+  /* EYEBROW / VATSIM BADGE */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #7fd4c8; background: rgba(74,158,218,0.12); border: 1px solid rgba(74,158,218,0.35);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+
+  /* NAV EXTRAS */
+  .nav-login {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid rgba(255,255,255,0.35); border-radius: 6px;
+    padding: 7px 14px; font-size: 0.82rem; font-weight: 700; color: white;
+    opacity: 0.9;
+  }
+  .nav-login:hover { opacity: 1; border-color: var(--sky); color: var(--sky); }
+  .nav-login .dot { width: 7px; height: 7px; border-radius: 50%; background: #2ecC71; }
+
+  /* PARTNER LOGO CARDS */
+  .partner-card {
+    width: 200px; min-height: 120px;
+    background: white;
+    border: 1px solid #e3e8f0;
+    border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    gap: 8px;
+    text-align: center;
+  }
+  .partner-card.tbd { border: 2px dashed #c7cfdc; box-shadow: none; }
+  .partner-card img { max-width: 100%; max-height: 56px; object-fit: contain; }
+  .partner-card .ph-label { color: var(--raaf-red); font-style: italic; font-size: 0.78rem; }
+  .partner-card .ph-name { color: var(--navy); font-weight: 700; font-size: 0.95rem; }
+  .partner-note {
+    max-width: 760px; margin: 30px auto 0; text-align: center;
+    font-size: 0.85rem; color: var(--grey); background: #f4f6f9; border: 1px dashed #c7cfdc;
+    border-radius: 8px; padding: 14px 18px;
+  }
+  .partner-note strong { color: var(--raaf-red); }
+
+  /* GDPR CONSENT BANNER */
+  #gdpr-banner {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 999;
+    background: var(--navy-deep); color: #cfd8e6;
+    padding: 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    display: none;
+  }
+  #gdpr-banner.show { display: flex; }
+  .gdpr-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .gdpr-inner p { font-size: 0.85rem; max-width: 760px; }
+  .gdpr-inner a { color: var(--sky); text-decoration: underline; }
+  .gdpr-actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .gdpr-actions button {
+    border: none; border-radius: 6px; padding: 10px 18px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  }
+  #gdpr-accept { background: var(--raaf-red); color: white; }
+  #gdpr-dismiss { background: transparent; color: #cfd8e6; border: 1px solid rgba(255,255,255,0.3) !important; }
 </style>
 </head>
 <body>
@@ -230,29 +292,34 @@
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#schedule">Schedule</a></li>
-        <li><a href="#squadrons">Squadrons &amp; Teams</a></li>
+        <li><a href="#performers">Performers</a></li>
         <li><a href="#booking">Slot Booking</a></li>
         <li><a href="#rules">ATC &amp; Rules</a></li>
+        <li><a href="roster.html">Roster</a></li>
         <li><a href="#gallery">Gallery</a></li>
         <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contact">Discord</a></li>
+        <li><a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a></li>
       </ul>
     </nav>
+    <a class="nav-login" href="#" title="Full VATSIM Connect login isn't wired up yet — see README">
+      <span class="dot"></span> Login with VATSIM
+    </a>
   </div>
 </header>
 
 <!-- HERO -->
 <div class="hero">
+  <span class="eyebrow">✈ Flown live on the VATSIM Network</span>
   <h1>vAIA — Virtual Australian International Airshow</h1>
-  <p class="sub">A community-run virtual recreation of the Australian International Airshow, flown live across MSFS, P3D &amp; X-Plane with real ATC coverage.</p>
+  <p class="sub">vAIA brings the excitement of Avalon Airshow to the virtual skies — full flying displays, static park showcases, and warbird formations, flown entirely by community pilots across Microsoft Flight Simulator, with live air traffic control provided by real VATSIM controllers.</p>
   <div class="meta">
-    <div><strong class="placeholder">[EVENT DATE]</strong><span>Event Dates</span></div>
-    <div><strong class="placeholder">[YMAV — Avalon]</strong><span>Virtual Location</span></div>
-    <div><strong class="placeholder">[VATSIM / IVAO]</strong><span>ATC Network</span></div>
+    <div><strong>Last Weekend of Jan 2027</strong><span>Event Dates</span></div>
+    <div><strong>YMAV — Avalon</strong><span>Virtual Location</span></div>
+    <div><strong>VATSIM</strong><span>ATC Network</span></div>
   </div>
   <div class="cta-row">
     <a href="#booking" class="btn btn-primary">Book Your Slot</a>
-    <a href="#contact" class="btn btn-secondary">Join the Discord</a>
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener" class="btn btn-secondary">Join the Discord</a>
   </div>
 </div>
 
@@ -267,8 +334,8 @@
   </div>
 </div>
 <script>
-  // Set your real event date/time here before publishing.
-  var EVENT_DATE = new Date("2026-11-01T09:00:00+11:00");
+  // Last weekend of January 2027 — Saturday 30 Jan, 09:00 AEDT
+  var EVENT_DATE = new Date("2027-01-30T09:00:00+11:00");
   function tickCountdown() {
     var now = new Date();
     var diff = EVENT_DATE - now;
@@ -295,9 +362,9 @@
   </div>
   <div class="about-grid">
     <div>
-      <p><span class="placeholder">[Replace with your event description — e.g. "vAIA brings the Australian International Airshow to the virtual skies, recreating the flying display, static park, and warbird formations over a custom-built Avalon Airport scenery. Flown entirely by community pilots across MSFS, P3D and X-Plane, with live air traffic control provided by VATSIM/IVAO controllers."]</span></p>
+      <p>vAIA (Virtual Australian International Airshow) brings the excitement of Avalon Airshow to the virtual skies. Recreated over a custom-built Avalon Airport scenery, vAIA features full flying displays, static park showcases, and warbird formations — all flown entirely by community pilots across Microsoft Flight Simulator, with live air traffic control provided by real VATSIM controllers.</p>
       <br>
-      <p><span class="placeholder">[Add background on the hosting organisation — e.g. RAAFV / VAWACS community, how many years running, past attendance numbers, streaming partners, etc.]</span></p>
+      <p>Hosted in partnership with VATSIM, VATPAC, and RAAF Virtual (RAAFV), vAIA is one of the premier virtual airshow events on the VATSIM network, bringing together pilots, controllers, and aviation enthusiasts from across Australia and around the world for a weekend of formation flying, warbird recreations, and airshow spectacle. The event will next take place on the last weekend of January 2027.</p>
     </div>
     <div class="img-placeholder">Hero Image / Banner Placeholder</div>
   </div>
@@ -315,23 +382,23 @@
       <tr><th>Day</th><th>Time (Local)</th><th>Activity</th></tr>
     </thead>
     <tbody>
-      <tr><td>Day 1 — Arrival</td><td class="placeholder">[TIME]</td><td>Pilot arrivals &amp; airport slot check-in</td></tr>
-      <tr><td>Day 1 — Arrival</td><td class="placeholder">[TIME]</td><td>Static display opens (walkaround screenshots)</td></tr>
-      <tr><td>Day 2 — Airshow</td><td class="placeholder">[TIME]</td><td>Opening ceremony &amp; RAAF flypast</td></tr>
-      <tr><td>Day 2 — Airshow</td><td class="placeholder">[TIME]</td><td>Aerobatic display team routine</td></tr>
-      <tr><td>Day 2 — Airshow</td><td class="placeholder">[TIME]</td><td>Warbird formation flight</td></tr>
-      <tr><td>Day 2 — Airshow</td><td class="placeholder">[TIME]</td><td>Fast jet solo display</td></tr>
-      <tr><td>Day 3 — Departure</td><td class="placeholder">[TIME]</td><td>Mass departure &amp; event close</td></tr>
+      <tr><td>Fri 29 Jan 2027 — Arrival</td><td class="placeholder">[TIME]</td><td>Pilot arrivals &amp; airport slot check-in</td></tr>
+      <tr><td>Fri 29 Jan 2027 — Arrival</td><td class="placeholder">[TIME]</td><td>Static display opens (walkaround screenshots)</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Opening ceremony &amp; RAAF flypast</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Aerobatic display team routine</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Warbird formation flight</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Fast jet solo display</td></tr>
+      <tr><td>Sun 31 Jan 2027 — Departure</td><td class="placeholder">[TIME]</td><td>Mass departure &amp; event close</td></tr>
     </tbody>
   </table>
 </section>
 
-<!-- SQUADRONS / DISPLAY TEAMS -->
-<section id="squadrons">
+<!-- PERFORMERS -->
+<section id="performers">
   <div class="section-title">
-    <h2>Squadrons &amp; Display Teams</h2>
+    <h2>Performers</h2>
     <div class="divider"></div>
-    <p>The formations and teams confirmed to fly at vAIA.</p>
+    <p>The formations and performers confirmed to fly at vAIA.</p>
   </div>
   <div class="card-grid">
     <div class="card">
@@ -446,7 +513,7 @@
   <div style="max-width:760px; margin:30px auto 0;">
     <div class="faq-item">
       <h3>Which flight simulators can I use?</h3>
-      <p class="placeholder">[List supported platforms — e.g. MSFS 2020/2024, P3D v4/v5, X-Plane 12]</p>
+      <p>Microsoft Flight Simulator. <span class="placeholder">[Confirm exact supported versions — e.g. MSFS 2020 and/or 2024]</span></p>
     </div>
     <div class="faq-item">
       <h3>Do I need to book a slot to attend?</h3>
@@ -464,16 +531,31 @@
 </section>
 
 <!-- PARTNERS -->
-<section>
+<section id="partners" class="bg-alt">
   <div class="section-title">
     <h2>Partners &amp; Supporting Organisations</h2>
     <div class="divider"></div>
+    <p>vAIA is hosted in partnership with VATSIM, VATPAC, and RAAF Virtual (RAAFV).</p>
   </div>
   <div class="partner-row">
-    <div class="partner-badge">RAAFV</div>
-    <div class="partner-badge">VAWACS</div>
-    <div class="partner-badge">VATSIM</div>
-    <div class="partner-badge placeholder">[Sponsor]</div>
+    <a class="partner-card" href="https://www.vatsim.net" target="_blank" rel="noopener">
+      <img src="assets/img/vatsim-logo.png" alt="VATSIM">
+    </a>
+    <a class="partner-card tbd" href="https://www.vatsim.net" target="_blank" rel="noopener">
+      <span class="ph-name">VATSIM Special Operations</span>
+      <span class="ph-label">[official logo pending]</span>
+    </a>
+    <div class="partner-card tbd">
+      <span class="ph-name">VATPAC</span>
+      <span class="ph-label">[logo needed]</span>
+    </div>
+    <div class="partner-card tbd">
+      <span class="ph-name">RAAF Virtual</span>
+      <span class="ph-label">[logo needed]</span>
+    </div>
+  </div>
+  <div class="partner-note">
+    <strong>Note:</strong> the VATSIM logo above is the real, official mark (linked to vatsim.net per VATSIM's branding requirements). The VATSIM Special Operations, VATPAC, and RAAFV marks are placeholders — their real logo files need to be supplied before launch. See the README for what's needed.
   </div>
 </section>
 
@@ -482,7 +564,7 @@
   <h2>Join the Community</h2>
   <p>Get event updates, book your slot, and chat with other pilots and controllers on our Discord server.</p>
   <div class="cta-row">
-    <a href="#" class="btn btn-primary">Join Discord</a>
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener" class="btn btn-primary">Join Discord</a>
     <a href="mailto:angusjones185@gmail.com" class="btn btn-secondary">Email the Team</a>
   </div>
 </div>
@@ -490,13 +572,43 @@
 <footer>
   <div>© <span id="year"></span> vAIA — Virtual Australian International Airshow. Fan-made virtual aviation event, not affiliated with the real Australian International Airshow.</div>
   <div class="footer-links">
-    <a href="#">Discord</a>
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a>
     <a href="#">Twitch</a>
     <a href="#">YouTube</a>
     <a href="#">Instagram</a>
+    <a href="roster.html">Pilot Roster</a>
+    <a href="privacy.html">Privacy Policy</a>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<!-- GDPR CONSENT -->
+<div id="gdpr-banner">
+  <div class="gdpr-inner">
+    <p>vAIA collects limited personal data (e.g. your VATSIM CID and contact details) when you apply to fly, book a slot, or contact the team, in line with our <a href="privacy.html">Privacy Policy</a>. By continuing to use this site you consent to that collection under GDPR.</p>
+    <div class="gdpr-actions">
+      <button id="gdpr-dismiss" type="button">Dismiss</button>
+      <button id="gdpr-accept" type="button">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function () {
+    var KEY = 'vaia-gdpr-consent';
+    var banner = document.getElementById('gdpr-banner');
+    if (!localStorage.getItem(KEY)) {
+      banner.classList.add('show');
+    }
+    function dismiss() {
+      localStorage.setItem(KEY, '1');
+      banner.classList.remove('show');
+    }
+    document.getElementById('gdpr-accept').addEventListener('click', dismiss);
+    document.getElementById('gdpr-dismiss').addEventListener('click', dismiss);
+  })();
+</script>
 
 </body>
 </html>

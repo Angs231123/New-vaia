@@ -1,46 +1,64 @@
 # vAIA — Virtual Australian International Airshow
 
 Official website for **vAIA**, a community-run virtual recreation of the
-Australian International Airshow, flown across MSFS, P3D & X-Plane with
-live ATC coverage.
+Australian International Airshow, flown on Microsoft Flight Simulator with
+live VATSIM air traffic control, hosted in partnership with VATSIM, VATPAC,
+and RAAF Virtual (RAAFV). Next event: last weekend of January 2027.
 
-This is a single self-contained static page: `index.html` has its CSS and
-JS inline, no build step, no dependencies.
+Self-contained static pages, no build step, no dependencies.
 
 ## Structure
 
 ```
-index.html      The entire site (hero, countdown, about, schedule,
-                squadrons, slot booking, ATC rules, gallery, FAQ,
-                partners, contact) — sections are anchor-linked from
-                the nav bar, e.g. #schedule, #booking, #rules
-assets/img/     Favicons (badge artwork from the earlier version of
-                the site; no longer referenced inline on the page)
+index.html      Home page — hero, countdown, about, schedule, performers,
+                slot booking, ATC rules, gallery, FAQ, partners, contact
+roster.html     Public active-pilot roster with VATSIM CIDs (VATSIM vSOA
+                requirement)
+privacy.html    GDPR Privacy Policy
 CNAME           Custom domain for GitHub Pages
+assets/img/     Favicons + official VATSIM logo (extracted at full quality
+                from VATSIM's own Brand Guidelines PDF) + the old airshow
+                badge artwork (currently unused by this template)
 ```
 
-## ⚠️ Before you publish this live
+## VATSIM vSOA compliance — status
 
-This template ships with a lot of **`[bracketed placeholder]`** text
-(shown in red) that needs replacing before it's public-ready:
+Per VATSIM's Special Operations policy, this site now has:
 
-- Hero stats: event date, ATC network
-- About section copy
-- Schedule table times
-- Squadron/display team names
-- Slot booking / ATC roster / livestream links
-- ATC frequencies, display altitude limits, briefing links
-- Gallery images (currently just placeholder blocks)
-- FAQ answers
-- Discord / Twitch / YouTube / Instagram links (currently `#`)
-- The countdown target date in the inline `<script>` (`EVENT_DATE`)
+- ✅ Real VATSIM logo, linked to `vatsim.net`, in the homepage Partners section
+- ✅ Public pilot roster (`roster.html`) showing VATSIM CIDs, linked from nav/footer
+- ✅ GDPR consent banner on the homepage + a real Privacy Policy page
+- ✅ HTTPS/SSL (handled automatically by GitHub Pages / Cloudflare Pages)
 
-Search the file for `placeholder` / `[` to find every spot.
+**Still outstanding — needs input only you can provide:**
 
-There's no application form or roster page in this version — booking
-and joining route entirely through the "Book Your Slot" and "Join
-Discord" links, so update those `href`s once you have a real form and
-Discord invite.
+- ⚠️ **VATSIM Special Operations logo** — not included in the Brand
+  Guidelines PDF you sent (that PDF only has VATSIM's general logo). Get it
+  from the official logo pack linked in that PDF (`vats.im/logo`) or from
+  VATSIM's VP of Marketing (`vpmkt@vatsim.net`), then send it to me to drop
+  into `assets/img/`.
+- ⚠️ **VATPAC logo** — not supplied at all; same process.
+- ⚠️ **RAAFV logo** — you pasted this inline in chat, but inline-pasted
+  images aren't saved as files I can read, so I couldn't extract it. Please
+  send it as an actual file upload/attachment and I'll add it.
+- ⚠️ **Real roster data** — `roster.html` still has placeholder pilot rows;
+  replace with real names/CIDs before this counts as compliant (only for
+  pilots who consent to their CID being public).
+- ⚠️ **Privacy Policy specifics** — fill in the bracketed placeholders
+  (organiser/entity name, data retention period) in `privacy.html`.
+- ⚠️ **"Login with VATSIM"** — the nav button is currently a visual
+  placeholder only (doesn't do anything on click). Real VATSIM Connect
+  login needs: (1) registering an OAuth app at vatsim.dev to get a client
+  ID/secret, and (2) a small backend/serverless function (e.g. Cloudflare
+  Pages Functions) to complete the OAuth code exchange — a client secret
+  can't live safely in static HTML/JS. Happy to wire this up once you've
+  registered the app.
+- ⚠️ **"Paid hosting" requirement** — VATSIM's policy states free website
+  builders aren't allowed for vSOA partners. This site runs on GitHub
+  Pages/Cloudflare Pages (both free) with a custom domain you purchased —
+  common practice for many VAs, but worth confirming directly with your
+  vSOA contact whether that satisfies their "paid hosting" requirement or
+  whether they specifically mean paid web hosting (e.g. a shared host).
 
 ## Running locally
 
@@ -51,29 +69,15 @@ python3 -m http.server 8080
 
 ## Deploying
 
-Currently deployed via GitHub Pages, built automatically by
-`.github/workflows/pages.yml` on every push to `main`, and pointed at
-the custom domain in `CNAME`:
+Deployed via GitHub Pages, built automatically by
+`.github/workflows/pages.yml` on every push to `main`, pointed at the
+custom domain in `CNAME`.
 
-**Live at: https://vaustralianintlairshow.org**
+**Live at: https://vaustralianintlairshow.org** (once your registrar's DNS
+is pointed at GitHub Pages — see chat history for the exact A records).
 
-If you move hosting to Cloudflare Pages instead:
-
-1. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-2. Select this repo (`Angs231123/New-vaia`).
-3. Build settings: leave **Build command** blank, **Build output
-   directory** = `/` (repo root).
-4. Deploy — Cloudflare gives you a `*.pages.dev` URL immediately.
-5. To use the custom domain: Pages project → **Custom domains → Set up
-   a custom domain** → enter `vaustralianintlairshow.org`. If the
-   domain's nameservers are already on Cloudflare, this is a one-click
-   attach with no manual DNS records. If not, Cloudflare will show you
-   the CNAME/A record to add at your current registrar.
-6. Note: Cloudflare Pages doesn't have a built-in form backend like
-   Netlify — if you add a real booking/contact form later, use a
-   `mailto:` link, an external form (Google Forms/Discord bot, as this
-   template already assumes), or a service like Formspree.
-
-Both GitHub Pages and Cloudflare Pages can run off this same repo at
-the same time (different default URLs); only one should own the
-custom domain at once — whichever DNS points to.
+To move to Cloudflare Pages instead: Cloudflare dashboard → Workers &
+Pages → Create → Pages → Connect to Git → select this repo → leave build
+command blank, output directory `/`. Note Cloudflare Pages has no built-in
+form backend like Netlify, so any future booking/contact form needs
+`mailto:`, an external form, or a service like Formspree.
