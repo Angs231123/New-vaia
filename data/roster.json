@@ -1,0 +1,6 @@
+[
+  { "name": "[Add Pilot Name]", "callsign": "vAIA-1", "cid": "[CID]", "role": "Formation Lead", "status": "active" },
+  { "name": "[Add Pilot Name]", "callsign": "vAIA-2", "cid": "[CID]", "role": "Wingman", "status": "active" },
+  { "name": "[Add Pilot Name]", "callsign": "vAIA-3", "cid": "[CID]", "role": "Warbird Formation", "status": "active" },
+  { "name": "[Vacant]", "callsign": "vAIA-4", "cid": "[CID]", "role": "Aerobatic Solo", "status": "recruiting" }
+]

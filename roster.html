@@ -74,11 +74,8 @@
     <thead>
       <tr><th>Name</th><th>Callsign</th><th>VATSIM CID</th><th>Role</th><th>Status</th></tr>
     </thead>
-    <tbody>
-      <tr><td class="placeholder">[Add Pilot Name]</td><td>vAIA-1</td><td class="placeholder">[CID]</td><td>Formation Lead</td><td><span class="tag tag-active">Active</span></td></tr>
-      <tr><td class="placeholder">[Add Pilot Name]</td><td>vAIA-2</td><td class="placeholder">[CID]</td><td>Wingman</td><td><span class="tag tag-active">Active</span></td></tr>
-      <tr><td class="placeholder">[Add Pilot Name]</td><td>vAIA-3</td><td class="placeholder">[CID]</td><td>Warbird Formation</td><td><span class="tag tag-active">Active</span></td></tr>
-      <tr><td class="placeholder">[Vacant]</td><td>vAIA-4</td><td class="placeholder">[CID]</td><td>Aerobatic Solo</td><td><span class="tag tag-open">Recruiting</span></td></tr>
+    <tbody id="roster-tbody">
+      <tr><td colspan="5">Loading roster…</td></tr>
     </tbody>
   </table>
   <div class="note-box"><strong>Template notice:</strong> rows above are placeholders. Replace with your real rostered pilots' names, callsigns, and full VATSIM CIDs before this page goes live — only list pilots who've consented to their CID being published here. This page must stay publicly accessible without login, per VATSIM's vSOA requirements.</div>
@@ -92,7 +89,43 @@
     <a href="privacy.html">Privacy Policy</a>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function () {
+    var tbody = document.getElementById('roster-tbody');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function render(list) {
+      if (!Array.isArray(list) || !list.length) {
+        tbody.innerHTML = '<tr><td colspan="5">No pilots on the roster yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(function (p) {
+        var isPh = /^\[.*\]$/.test(String(p.name || '')) || /^\[.*\]$/.test(String(p.cid || ''));
+        var nameCls = isPh ? ' class="placeholder"' : '';
+        var cidCls = /^\[.*\]$/.test(String(p.cid || '')) ? ' class="placeholder"' : '';
+        var tag = p.status === 'recruiting'
+          ? '<span class="tag tag-open">Recruiting</span>'
+          : '<span class="tag tag-active">Active</span>';
+        return '<tr>' +
+          '<td' + nameCls + '>' + esc(p.name) + '</td>' +
+          '<td>' + esc(p.callsign) + '</td>' +
+          '<td' + cidCls + '>' + esc(p.cid) + '</td>' +
+          '<td>' + esc(p.role) + '</td>' +
+          '<td>' + tag + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+    fetch('/api/roster')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(render)
+      .catch(function () {
+        fetch('data/roster.json').then(function (r) { return r.json(); }).then(render).catch(function () {
+          tbody.innerHTML = '<tr><td colspan="5">Roster unavailable.</td></tr>';
+        });
+      });
+  })();
+</script>
 
 </body>
 </html>

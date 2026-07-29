@@ -1,0 +1,22 @@
+[
+  {
+    "icon": "✈️",
+    "title": "[Aerobatic Display Team]",
+    "description": "Formation aerobatics routine — replace with confirmed team name, aircraft type, and pilot count."
+  },
+  {
+    "icon": "🛩️",
+    "title": "[Warbird Formation]",
+    "description": "Historic aircraft formation flight — list aircraft types and formation size."
+  },
+  {
+    "icon": "🎖️",
+    "title": "[RAAF Fast Jet Flypast]",
+    "description": "Military fast jet solo or pair display — replace with confirmed squadron."
+  },
+  {
+    "icon": "🛬",
+    "title": "[Airliner Arrivals]",
+    "description": "Commercial/GA mass arrival slots for static display participants."
+  }
+]

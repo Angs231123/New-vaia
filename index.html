@@ -301,7 +301,7 @@
         <li><a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a></li>
       </ul>
     </nav>
-    <a class="nav-login" href="#" title="Full VATSIM Connect login isn't wired up yet — see README">
+    <a class="nav-login" href="/api/auth/login" title="Requires the site to be deployed on Cloudflare Pages with VATSIM Connect configured — see README">
       <span class="dot"></span> Login with VATSIM
     </a>
   </div>
@@ -400,27 +400,8 @@
     <div class="divider"></div>
     <p>The formations and performers confirmed to fly at vAIA.</p>
   </div>
-  <div class="card-grid">
-    <div class="card">
-      <div class="icon">✈️</div>
-      <h3 class="placeholder">[Aerobatic Display Team]</h3>
-      <p>Formation aerobatics routine — replace with confirmed team name, aircraft type, and pilot count.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🛩️</div>
-      <h3 class="placeholder">[Warbird Formation]</h3>
-      <p>Historic aircraft formation flight — list aircraft types and formation size.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🎖️</div>
-      <h3 class="placeholder">[RAAF Fast Jet Flypast]</h3>
-      <p>Military fast jet solo or pair display — replace with confirmed squadron.</p>
-    </div>
-    <div class="card">
-      <div class="icon">🛬</div>
-      <h3 class="placeholder">[Airliner Arrivals]</h3>
-      <p>Commercial/GA mass arrival slots for static display participants.</p>
-    </div>
+  <div class="card-grid" id="performers-grid">
+    <div class="card"><p>Loading performers…</p></div>
   </div>
 </section>
 
@@ -578,6 +559,7 @@
     <a href="#">Instagram</a>
     <a href="roster.html">Pilot Roster</a>
     <a href="privacy.html">Privacy Policy</a>
+    <a href="admin.html">Admin</a>
   </div>
 </footer>
 
@@ -594,6 +576,35 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Performers: try the live API first (Cloudflare Pages), fall back to the
+  // bundled static JSON (works even on plain GitHub Pages with no backend).
+  (function () {
+    var grid = document.getElementById('performers-grid');
+    function render(list) {
+      if (!Array.isArray(list) || !list.length) {
+        grid.innerHTML = '<div class="card"><p>No performers announced yet — check back soon.</p></div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (p) {
+        var title = p.title || '';
+        var isPlaceholder = title.indexOf('[') === 0;
+        return '<div class="card">' +
+          '<div class="icon">' + (p.icon || '✈️') + '</div>' +
+          '<h3' + (isPlaceholder ? ' class="placeholder"' : '') + '>' + title + '</h3>' +
+          '<p>' + (p.description || '') + '</p>' +
+          '</div>';
+      }).join('');
+    }
+    fetch('/api/performers')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(render)
+      .catch(function () {
+        fetch('data/performers.json').then(function (r) { return r.json(); }).then(render).catch(function () {
+          grid.innerHTML = '<div class="card"><p>Performers list unavailable.</p></div>';
+        });
+      });
+  })();
 
   (function () {
     var KEY = 'vaia-gdpr-consent';
