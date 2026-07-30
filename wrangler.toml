@@ -1,7 +1,0 @@
-name = "new-vaia"
-pages_build_output_dir = "."
-compatibility_date = "2025-01-01"
-
-[[kv_namespaces]]
-binding = "VAIA_KV"
-id = "3e4b4a7825024eb7aae9048a60498b89"

@@ -18,11 +18,8 @@ admin.html           Admin panel (add/edit/remove performers & roster) —
 data/*.json          Fallback content for performers/roster — used when
                     there's no backend (e.g. plain GitHub Pages) or KV
                     has never been written to
-_worker.js           The entire backend (admin login/logout/me, performers/
-                    roster CRUD) as a single Cloudflare Pages Worker file —
-                    one file, no imports, so it works with every Cloudflare
-                    deployment method including dashboard drag-and-drop
-wrangler.toml        Declares the VAIA_KV binding for `wrangler pages deploy`
+functions/api/       Cloudflare Pages Functions: admin login/logout/me,
+                    and performers/roster CRUD
 CNAME                Custom domain for GitHub Pages
 assets/img/          Favicons + official VATSIM logo (extracted at full
                     quality from VATSIM's own Brand Guidelines PDF)
@@ -56,21 +53,6 @@ Pages — Pages Functions/KV are Cloudflare-specific). Steps, all one-time:
    to the Pages project: project → **Bindings** tab → Add binding → KV
    namespace → variable name **`VAIA_KV`** → select that namespace.
 
-   > If that "Add binding" button doesn't actually save anything (known
-   > dashboard bug we hit — clicking it fires no network request and the
-   > binding never appears under Connected Bindings), skip the dashboard
-   > entirely and run one deploy from your own computer instead:
-   > ```
-   > git clone https://github.com/Angs231123/New-vaia.git
-   > cd New-vaia
-   > npx wrangler login
-   > npx wrangler pages deploy
-   > ```
-   > This reads the KV namespace ID already saved in `wrangler.toml` and
-   > sets the binding as part of the deploy. Once it's set this way, it's a
-   > project-level setting — later deploys via Git push or drag-and-drop
-   > keep using it, you don't need to repeat this.
-
 3. **Set environment variables** on the Pages project (Settings →
    Environment variables — add for both Production and Preview):
    - `ADMIN_USERNAME` — whatever username you want to log in with
@@ -96,31 +78,6 @@ Pages — Pages Functions/KV are Cloudflare-specific). Steps, all one-time:
   falling back to the bundled `data/*.json` if KV is empty); `POST`
   requires a valid admin session and overwrites the KV value with the
   posted JSON array.
-- All of the above lives in one file, `_worker.js` — deliberately not
-  split up, so it works no matter which of the three Cloudflare deploy
-  methods you use (Git push, `wrangler pages deploy`, or dashboard
-  drag-and-drop, see below).
-
-## Updating the live site without git — drag and drop
-
-Once the KV binding is set up (one-time, see above), you can update the
-site by dragging the project folder into Cloudflare's dashboard instead of
-using git or the terminal:
-
-1. Edit files locally (or download the repo as a zip from GitHub and
-   unzip it) — e.g. edit `data/performers.json`, or drop a new photo into
-   `assets/img/`.
-2. In the Cloudflare dashboard, go to your **new-vaia** Pages project →
-   **Deployments** tab → look for a button to create a new deployment /
-   upload (wording varies — something like "Create deployment" or
-   "Upload assets").
-3. Drag the whole project folder in (or select it) and deploy.
-
-This deploys the same `_worker.js` backend as any other method, so admin
-login and the API keep working — that's the whole reason the backend was
-combined into one file instead of the `functions/` folder Cloudflare Pages
-normally expects (drag-and-drop deployments don't support that folder at
-all).
 
 ## VATSIM vSOA compliance — status
 
