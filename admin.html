@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — vAIA</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/shared/favicon-32.png">
 <style>
   :root { --navy: #0a1e3f; --navy-deep: #061428; --sky: #1e88e5; --raaf-red: #c8102e; --off-white: #f4f6f9; --grey: #8a94a6; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -79,7 +79,7 @@
         <thead><tr><th>Icon</th><th>Image path</th><th>Title</th><th>Description</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
-      <p class="hint" style="margin-top:8px">Image path is optional — e.g. <code>assets/img/performers/yourfile.jpg</code>. Upload the file to that path in the repo first; if it's blank or fails to load, the emoji icon is shown instead.</p>
+      <p class="hint" style="margin-top:8px">Image path is optional — e.g. <code>assets/img/home/performers/yourfile.jpg</code>. Upload the file to that path in the repo first; if it's blank or fails to load, the emoji icon is shown instead.</p>
       <button class="btn btn-ghost" id="add-performer" style="margin-top:12px">+ Add Performer</button>
       <div style="margin-top:16px">
         <button class="btn btn-primary" id="save-performers">Save Performers</button>
@@ -175,7 +175,7 @@ function renderPerformers() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><input value="${esc(p.icon || '')}" data-f="icon" style="width:50px"></td>
-      <td><input value="${esc(p.image || '')}" data-f="image" placeholder="assets/img/performers/…"></td>
+      <td><input value="${esc(p.image || '')}" data-f="image" placeholder="assets/img/home/performers/…"></td>
       <td><input value="${esc(p.title || '')}" data-f="title"></td>
       <td><input value="${esc(p.description || '')}" data-f="description"></td>
       <td class="row-actions"><button data-del>Remove</button></td>`;
