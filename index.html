@@ -138,7 +138,7 @@
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; margin-top: 40px; }
   .about-grid .img-placeholder {
-    background: repeating-linear-gradient(45deg, #dbe2ec, #dbe2ec 10px, #cfd8e6 10px, #cfd8e6 20px);
+    background: var(--navy);
     border-radius: 12px;
     height: 320px;
     display: flex;
@@ -146,7 +146,9 @@
     justify-content: center;
     color: var(--grey);
     font-weight: 600;
+    overflow: hidden;
   }
+  .about-grid .img-placeholder img { width: 100%; height: 100%; object-fit: contain; display: block; }
   @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
 
   /* SCHEDULE TABLE */
@@ -174,6 +176,31 @@
     background: #0a1830;
   }
   .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* PERFORMER BLOCKS — full-width */
+  .performer-blocks { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+  .performer-block {
+    background: var(--card-bg); color: white; border-radius: 14px;
+    display: flex; flex-wrap: wrap; overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  }
+  .performer-block.featured { outline: 2px solid var(--sky); }
+  .performer-block .pb-media { flex: 1 1 320px; min-height: 220px; background: #0a1830; }
+  .performer-block .pb-media img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 220px; }
+  .performer-block .pb-media .icon { font-size: 3rem; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .performer-block .pb-body { flex: 1 1 360px; padding: 32px; display: flex; flex-direction: column; justify-content: center; }
+  .performer-block .pb-badge {
+    display: inline-block; background: var(--sky); color: white; font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 12px; width: fit-content;
+  }
+  .performer-block h3 { font-size: 1.4rem; margin-bottom: 10px; }
+  .performer-block p { color: #c3cede; font-size: 0.95rem; margin-bottom: 14px; }
+  .performer-block .pb-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .performer-block .pb-highlights li {
+    color: #dbe2ec; font-size: 0.88rem; padding-left: 22px; position: relative;
+  }
+  .performer-block .pb-highlights li::before { content: "✈"; position: absolute; left: 0; color: var(--sky); }
 
   .light-card {
     background: white;
@@ -376,9 +403,9 @@
     <div>
       <p>vAIA (Virtual Australian International Airshow) brings the excitement of Avalon Airshow to the virtual skies. Recreated over a custom-built Avalon Airport scenery, vAIA features full flying displays, static park showcases, and warbird formations — all flown entirely by community pilots across Microsoft Flight Simulator, with live air traffic control provided by real VATSIM controllers.</p>
       <br>
-      <p>Hosted in partnership with VATSIM, VATPAC, and RAAF Virtual (RAAFV), vAIA is one of the premier virtual airshow events on the VATSIM network, bringing together pilots, controllers, and aviation enthusiasts from across Australia and around the world for a weekend of formation flying, warbird recreations, and airshow spectacle. The event will next take place on the last weekend of January 2027.</p>
+      <p>Hosted in partnership with VATSIM, VATPAC, RAAF Virtual (RAAFV), and FSRLTS, vAIA is one of the premier virtual airshow events on the VATSIM network, bringing together pilots, controllers, and aviation enthusiasts from across Australia and around the world for a weekend of formation flying, warbird recreations, and airshow spectacle. The event will next take place on the last weekend of January 2027.</p>
     </div>
-    <div class="img-placeholder">Hero Image / Banner Placeholder</div>
+    <div class="img-placeholder"><img src="assets/img/hero-banner.png" alt="Virtual Australian International Airshow"></div>
   </div>
 </section>
 
@@ -412,8 +439,8 @@
     <div class="divider"></div>
     <p>The formations and performers confirmed to fly at vAIA.</p>
   </div>
-  <div class="card-grid" id="performers-grid">
-    <div class="card"><p>Loading performers…</p></div>
+  <div class="performer-blocks" id="performers-grid">
+    <div class="performer-block"><div class="pb-body"><p>Loading performers…</p></div></div>
   </div>
 </section>
 
@@ -426,20 +453,19 @@
   </div>
   <div class="card-grid" style="margin-top:40px;">
     <div class="light-card">
-      <h3 style="color:var(--navy); margin-bottom:8px;">✈️ Pilot Slots</h3>
-      <p style="color:#465064; font-size:0.9rem;">Book a static display or flying display slot. <span class="placeholder">[Link to your Google Form / Discord bot here]</span></p>
+      <h3 style="color:var(--navy); margin-bottom:8px;">✈️ Display Pilot Application</h3>
+      <p style="color:#465064; font-size:0.9rem; margin-bottom:16px;">Book a static display or flying display slot.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSczLC2YddvE0TF65_nK7hlp-0e9uKzeDieJrSQvYlrfRzieaA/viewform?usp=sharing&ouid=101338411277265161935" target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--sky); width:100%; text-align:center;">Apply to Fly</a>
     </div>
     <div class="light-card">
-      <h3 style="color:var(--navy); margin-bottom:8px;">🎧 ATC Roster</h3>
-      <p style="color:#465064; font-size:0.9rem;">Sign up to control a position during the event. <span class="placeholder">[Link to controller sign-up]</span></p>
+      <h3 style="color:var(--navy); margin-bottom:8px;">🎧 Staff Application</h3>
+      <p style="color:#465064; font-size:0.9rem; margin-bottom:16px;">Sign up to control, marshal, or help run the event.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScRJzYrMvM5bfazUnrRjLF8vN2BPhI6crrK4Ks5C0MYloBtSA/viewform?usp=sharing&ouid=101338411277265161935" target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--sky); width:100%; text-align:center;">Apply for Staff</a>
     </div>
     <div class="light-card">
       <h3 style="color:var(--navy); margin-bottom:8px;">📸 Spectator Pass</h3>
       <p style="color:#465064; font-size:0.9rem;">No slot required — just connect and watch, or follow the livestream. <span class="placeholder">[Add stream link]</span></p>
     </div>
-  </div>
-  <div style="text-align:center; margin-top:36px;">
-    <a href="#" class="btn btn-primary" style="background:var(--sky);">Open Booking Form</a>
   </div>
 </section>
 
@@ -521,7 +547,7 @@
   <div class="section-title">
     <h2>Partners &amp; Supporting Organisations</h2>
     <div class="divider"></div>
-    <p>vAIA is hosted in partnership with VATSIM, VATPAC, and RAAF Virtual (RAAFV).</p>
+    <p>vAIA is hosted in partnership with VATSIM, VATPAC, RAAF Virtual (RAAFV), and FSRLTS.</p>
   </div>
   <div class="partner-row">
     <a class="partner-card" href="https://www.vatsim.net" target="_blank" rel="noopener">
@@ -539,9 +565,13 @@
       <span class="ph-name">RAAF Virtual</span>
       <span class="ph-label">[logo needed]</span>
     </div>
+    <div class="partner-card tbd">
+      <span class="ph-name">FSRLTS</span>
+      <span class="ph-label">[logo needed]</span>
+    </div>
   </div>
   <div class="partner-note">
-    <strong>Note:</strong> the VATSIM logo above is the real, official mark (linked to vatsim.net per VATSIM's branding requirements). The VATSIM Special Operations, VATPAC, and RAAFV marks are placeholders — their real logo files need to be supplied before launch. See the README for what's needed.
+    <strong>Note:</strong> the VATSIM logo above is the real, official mark (linked to vatsim.net per VATSIM's branding requirements). The VATSIM Special Operations, VATPAC, RAAFV, and FSRLTS marks are placeholders — their real logo files need to be supplied before launch. See the README for what's needed.
   </div>
 </section>
 
@@ -557,6 +587,7 @@
 
 <footer>
   <div>© <span id="year"></span> vAIA — Virtual Australian International Airshow. Fan-made virtual aviation event, not affiliated with the real Australian International Airshow.</div>
+  <div style="margin-top:6px; font-size:0.8rem; color:var(--grey);">In collaboration with VATPAC, RAAFV, and FSRLTS.</div>
   <div class="footer-links">
     <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a>
     <a href="#">Twitch</a>
@@ -588,20 +619,28 @@
     var grid = document.getElementById('performers-grid');
     function render(list) {
       if (!Array.isArray(list) || !list.length) {
-        grid.innerHTML = '<div class="card"><p>No performers announced yet — check back soon.</p></div>';
+        grid.innerHTML = '<div class="performer-block"><div class="pb-body"><p>No performers announced yet — check back soon.</p></div></div>';
         return;
       }
       grid.innerHTML = list.map(function (p) {
         var title = p.title || '';
         var isPlaceholder = title.indexOf('[') === 0;
         var media = p.image
-          ? '<div class="card-img"><img src="' + p.image + '" alt="' + title + '" ' +
-            'onerror="this.parentElement.outerHTML=\'<div class=&quot;icon&quot;>' + (p.icon || '✈️') + '</div>\'"></div>'
-          : '<div class="icon">' + (p.icon || '✈️') + '</div>';
-        return '<div class="card">' +
+          ? '<div class="pb-media"><img src="' + p.image + '" alt="' + title + '" ' +
+            'onerror="this.parentElement.innerHTML=\'<div class=&quot;icon&quot;>' + (p.icon || '✈️') + '</div>\'"></div>'
+          : '<div class="pb-media"><div class="icon">' + (p.icon || '✈️') + '</div></div>';
+        var badge = p.featured ? '<span class="pb-badge">Featured Performer</span>' : '';
+        var highlights = Array.isArray(p.highlights) && p.highlights.length
+          ? '<ul class="pb-highlights">' + p.highlights.map(function (h) { return '<li>' + h + '</li>'; }).join('') + '</ul>'
+          : '';
+        return '<div class="performer-block' + (p.featured ? ' featured' : '') + '">' +
           media +
+          '<div class="pb-body">' +
+          badge +
           '<h3' + (isPlaceholder ? ' class="placeholder"' : '') + '>' + title + '</h3>' +
           '<p>' + (p.description || '') + '</p>' +
+          highlights +
+          '</div>' +
           '</div>';
       }).join('');
     }
@@ -610,7 +649,7 @@
       .then(render)
       .catch(function () {
         fetch('data/performers.json').then(function (r) { return r.json(); }).then(render).catch(function () {
-          grid.innerHTML = '<div class="card"><p>Performers list unavailable.</p></div>';
+          grid.innerHTML = '<div class="performer-block"><div class="pb-body"><p>Performers list unavailable.</p></div></div>';
         });
       });
   })();

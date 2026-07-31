@@ -39,6 +39,8 @@
   .tag-open { background: rgba(30,136,229,0.12); color: var(--sky); }
   .note-box { margin-top: 22px; font-size: 0.85rem; color: var(--grey); background: white; border: 1px dashed #c7cfdc; border-radius: 8px; padding: 14px 18px; }
   .note-box strong { color: var(--raaf-red); }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.88rem; }
+  .btn-sheet { background: #1e8e3e; color: white; }
   footer { background: var(--navy-deep); color: var(--grey); padding: 30px 24px; text-align: center; font-size: 0.85rem; }
   footer a { color: var(--sky); }
   .footer-links { margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
@@ -69,7 +71,10 @@
 </div>
 
 <section>
-  <h2 style="color:var(--navy); font-size:1.3rem; margin-bottom:10px;">Active Pilots</h2>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+    <h2 style="color:var(--navy); font-size:1.3rem;">Active Pilots</h2>
+    <a class="btn btn-sheet" href="https://docs.google.com/spreadsheets/d/1EFoT_4JHY9eXiI09U7oYhAeuSA0222JGj8x8raS81kQ/edit?usp=sharing" target="_blank" rel="noopener">📄 Open Live Roster (Google Sheets)</a>
+  </div>
   <table>
     <thead>
       <tr><th>Name</th><th>Callsign</th><th>VATSIM CID</th><th>Role</th><th>Status</th></tr>
