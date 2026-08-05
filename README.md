@@ -85,16 +85,14 @@ Pages — Pages Functions/KV are Cloudflare-specific). Steps, all one-time:
 - ✅ Public pilot roster (`roster.html`) showing VATSIM CIDs
 - ✅ GDPR consent banner + Privacy Policy page
 - ✅ HTTPS/SSL (automatic on GitHub Pages / Cloudflare Pages)
+- ✅ VATSIM, VATSIM Special Operations, and VATPAC logos — real official marks, in the Partners section
 
 **Still outstanding — needs input only you can provide:**
 
-- ⚠️ **VATSIM Special Operations logo** — not in the Brand Guidelines PDF
-  you sent (that one only has VATSIM's general logo). Get it from the
-  official pack linked in that PDF (`vats.im/logo`) or VATSIM's VP of
-  Marketing (`vpmkt@vatsim.net`), then send it to me.
-- ⚠️ **VATPAC logo** and **RAAFV logo** — not available as files I can
-  read (RAAFV was pasted inline in chat, which doesn't save as a file for
-  me — please upload it as an actual attachment).
+- ⚠️ **RAAFV logo** and **FSRLTS logo** — not available as files I can
+  read yet. Inline-pasted images in chat don't save as files I can use —
+  please upload as an actual attachment, or straight to
+  `assets/img/unplaced/` on GitHub like you did for the other art.
 - ⚠️ **Real roster/performer data** — replace the placeholders in
   `data/performers.json` / `data/roster.json` (or via the admin panel)
   with real names/CIDs, only for pilots who consent to their CID being public.
