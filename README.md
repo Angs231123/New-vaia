@@ -116,6 +116,6 @@ static `data/*.json` files automatically, same as it does on GitHub Pages.
 
 Currently live via **GitHub Pages** (`.github/workflows/pages.yml`,
 deploys on every push to `main`, custom domain via `CNAME`) at
-**https://vaustralianintlairshow.org**. Content editing via the JSON files
+**https://vaustralianintlairshow.com**. Content editing via the JSON files
 works there. The admin panel needs Cloudflare Pages (see above) — once
 that's live, point the domain's DNS at Cloudflare instead.
