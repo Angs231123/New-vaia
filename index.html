@@ -615,6 +615,8 @@
   // bundled static JSON (works even on plain GitHub Pages with no backend).
   (function () {
     var grid = document.getElementById('performers-grid');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function jsEsc(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
     function render(list) {
       if (!Array.isArray(list) || !list.length) {
         grid.innerHTML = '<div class="performer-block"><div class="pb-body"><p>No performers announced yet — check back soon.</p></div></div>';
@@ -623,20 +625,21 @@
       grid.innerHTML = list.map(function (p) {
         var title = p.title || '';
         var isPlaceholder = title.indexOf('[') === 0;
+        var icon = esc(p.icon || '✈️');
         var media = p.image
-          ? '<div class="pb-media"><img src="' + p.image + '" alt="' + title + '" ' +
-            'onerror="this.parentElement.innerHTML=\'<div class=&quot;icon&quot;>' + (p.icon || '✈️') + '</div>\'"></div>'
-          : '<div class="pb-media"><div class="icon">' + (p.icon || '✈️') + '</div></div>';
+          ? '<div class="pb-media"><img src="' + esc(p.image) + '" alt="' + esc(title) + '" ' +
+            'onerror="this.parentElement.innerHTML=\'<div class=&quot;icon&quot;>' + jsEsc(icon) + '</div>\'"></div>'
+          : '<div class="pb-media"><div class="icon">' + icon + '</div></div>';
         var badge = p.featured ? '<span class="pb-badge">Featured Performer</span>' : '';
         var highlights = Array.isArray(p.highlights) && p.highlights.length
-          ? '<ul class="pb-highlights">' + p.highlights.map(function (h) { return '<li>' + h + '</li>'; }).join('') + '</ul>'
+          ? '<ul class="pb-highlights">' + p.highlights.map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>'
           : '';
         return '<div class="performer-block' + (p.featured ? ' featured' : '') + '">' +
           media +
           '<div class="pb-body">' +
           badge +
-          '<h3' + (isPlaceholder ? ' class="placeholder"' : '') + '>' + title + '</h3>' +
-          '<p>' + (p.description || '') + '</p>' +
+          '<h3' + (isPlaceholder ? ' class="placeholder"' : '') + '>' + esc(title) + '</h3>' +
+          '<p>' + esc(p.description || '') + '</p>' +
           highlights +
           '</div>' +
           '</div>';
@@ -655,6 +658,7 @@
   // Gallery: same live-API-then-static-fallback pattern, reading images from data/gallery.json.
   (function () {
     var grid = document.getElementById('gallery-grid');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
     function render(list) {
       if (!Array.isArray(list) || !list.length) {
         grid.innerHTML = '<div class="g-item">No photos yet</div>';
@@ -663,10 +667,10 @@
       grid.innerHTML = list.map(function (item) {
         var alt = item.alt || 'Gallery photo';
         if (item.image) {
-          return '<div class="g-item"><img src="' + item.image + '" alt="' + alt + '" ' +
-            'onerror="this.parentElement.textContent=\'' + alt.replace(/'/g, "\\'") + '\'"></div>';
+          return '<div class="g-item"><img src="' + esc(item.image) + '" alt="' + esc(alt) + '" ' +
+            'onerror="this.parentElement.textContent=\'' + alt.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\'"></div>';
         }
-        return '<div class="g-item">' + alt + '</div>';
+        return '<div class="g-item">' + esc(alt) + '</div>';
       }).join('');
     }
     fetch('/api/gallery')

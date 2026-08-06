@@ -2,7 +2,7 @@
 // Pages environment variables (ADMIN_USERNAME, ADMIN_PASSWORD) — never
 // hardcode them here.
 
-import { createSession, sessionCookieHeader } from "../../_utils/session.js";
+import { createSession, sessionCookieHeader, timingSafeEqual } from "../../_utils/session.js";
 
 export async function onRequestPost({ request, env }) {
   if (!env.ADMIN_USERNAME || !env.ADMIN_PASSWORD || !env.SESSION_SECRET) {
@@ -20,7 +20,9 @@ export async function onRequestPost({ request, env }) {
   }
 
   const { username, password } = body || {};
-  if (username !== env.ADMIN_USERNAME || password !== env.ADMIN_PASSWORD) {
+  const usernameOk = timingSafeEqual(username, env.ADMIN_USERNAME);
+  const passwordOk = timingSafeEqual(password, env.ADMIN_PASSWORD);
+  if (!usernameOk || !passwordOk) {
     return Response.json({ error: "Incorrect username or password" }, { status: 401 });
   }
 

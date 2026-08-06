@@ -28,11 +28,22 @@ export async function createSession(payload, secret) {
   return `${body}.${sig}`;
 }
 
+export function timingSafeEqual(a, b) {
+  a = String(a == null ? "" : a);
+  b = String(b == null ? "" : b);
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export async function verifySession(token, secret) {
   if (!token || !token.includes(".")) return null;
   const [body, sig] = token.split(".");
   const expected = await hmac(secret, body);
-  if (sig !== expected) return null;
+  if (!timingSafeEqual(sig, expected)) return null;
   try {
     const payload = JSON.parse(atob(body.replace(/-/g, "+").replace(/_/g, "/")));
     if (payload.exp && Date.now() > payload.exp) return null;
