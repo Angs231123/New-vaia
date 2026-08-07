@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — vAIA</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/shared/favicon-32.png">
+<style>
+  :root { --navy: #0a1e3f; --navy-deep: #061428; --sky: #1e88e5; --raaf-red: #c8102e; --off-white: #f4f6f9; --grey: #8a94a6; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--off-white); color: #1b2430; line-height: 1.6; }
+  a { color: var(--sky); }
+  header { background: var(--navy-deep); color: white; }
+  .nav-wrap { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.2rem; color: white; text-decoration: none; }
+  .roundel { width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, var(--raaf-red) 35%, white 36%, white 55%, var(--sky) 56%); flex-shrink: 0; }
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 24px 90px; }
+  h1 { color: var(--navy); font-size: 1.7rem; margin-bottom: 6px; }
+  .sub { color: var(--grey); margin-bottom: 30px; }
+  .card { background: white; border: 1px solid #e3e8f0; border-radius: 10px; padding: 24px; margin-bottom: 26px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; border: none; cursor: pointer; text-decoration: none; }
+  .btn-primary { background: var(--raaf-red); color: white; }
+  .btn-secondary { background: var(--navy); color: white; }
+  .btn-ghost { background: transparent; color: var(--navy); border: 1px solid #c7cfdc; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+  th, td { padding: 10px 12px; text-align: left; font-size: 0.88rem; border-bottom: 1px solid #eef1f6; }
+  th { color: var(--grey); text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.5px; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #c7cfdc; border-radius: 5px; font-size: 0.88rem; font-family: inherit; }
+  .row-actions { display: flex; gap: 8px; }
+  .row-actions button { background: none; border: none; cursor: pointer; font-size: 0.85rem; color: var(--raaf-red); }
+  textarea.json { min-height: 220px; font-family: 'Consolas', monospace; font-size: 0.82rem; }
+  .status-msg { margin-top: 10px; font-size: 0.85rem; }
+  .status-msg.ok { color: #1f9d5e; }
+  .status-msg.err { color: var(--raaf-red); }
+  #locked, #unlocked { display: none; }
+  .field-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-bottom: 10px; }
+  h2 { color: var(--navy); font-size: 1.1rem; margin-bottom: 4px; }
+  .hint { color: var(--grey); font-size: 0.8rem; margin-bottom: 14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="roundel"></span> vAIA Admin</a>
+    <a href="/api/auth/logout" class="btn btn-ghost" style="color:white;border-color:rgba(255,255,255,0.3)">Log Out</a>
+  </div>
+</header>
+
+<main>
+
+  <div id="locked" class="card">
+    <h1>Admin Login</h1>
+    <p class="sub">Enter the admin username and password.</p>
+    <form id="login-form" style="max-width:320px">
+      <div style="margin-bottom:12px">
+        <label style="font-size:0.8rem;color:var(--grey)">Username</label>
+        <input type="text" id="login-username" autocomplete="username" required>
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:0.8rem;color:var(--grey)">Password</label>
+        <input type="password" id="login-password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+    <p class="status-msg" id="locked-msg"></p>
+  </div>
+
+  <div id="unlocked">
+    <h1>vAIA Admin</h1>
+    <p class="sub" id="who"></p>
+
+    <div class="card">
+      <h2>Performers</h2>
+      <p class="hint">Shown in the homepage "Performers" section.</p>
+      <table id="performers-table">
+        <thead><tr><th>Icon</th><th>Image path</th><th>Title</th><th>Description</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="hint" style="margin-top:8px">Image path is optional — e.g. <code>assets/img/home/performers/yourfile.jpg</code>. Upload the file to that path in the repo first; if it's blank or fails to load, the emoji icon is shown instead.</p>
+      <button class="btn btn-ghost" id="add-performer" style="margin-top:12px">+ Add Performer</button>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" id="save-performers">Save Performers</button>
+        <span class="status-msg" id="performers-msg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pilot Roster</h2>
+      <p class="hint">Shown on the public Roster page. Only include pilots who've consented to their CID being published.</p>
+      <table id="roster-table">
+        <thead><tr><th>Name</th><th>Callsign</th><th>VATSIM CID</th><th>Role</th><th>Status</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <button class="btn btn-ghost" id="add-roster" style="margin-top:12px">+ Add Pilot</button>
+      <div style="margin-top:16px">
+        <button class="btn btn-primary" id="save-roster">Save Roster</button>
+        <span class="status-msg" id="roster-msg"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Manual / Bulk Edit</h2>
+      <p class="hint">Prefer editing raw JSON? Paste it here and save — same data as the tables above.</p>
+      <label style="font-size:0.8rem;color:var(--grey)">Performers JSON</label>
+      <textarea class="json" id="performers-json"></textarea>
+      <button class="btn btn-secondary" id="save-performers-json" style="margin-top:10px">Save Performers JSON</button>
+      <hr style="margin:22px 0;border:none;border-top:1px solid #eef1f6">
+      <label style="font-size:0.8rem;color:var(--grey)">Roster JSON</label>
+      <textarea class="json" id="roster-json"></textarea>
+      <button class="btn btn-secondary" id="save-roster-json" style="margin-top:10px">Save Roster JSON</button>
+      <p class="status-msg" id="json-msg"></p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => Array.from(el.querySelectorAll(s));
+
+let performers = [];
+let roster = [];
+
+async function boot() {
+  const me = await fetch('/api/auth/me').then(r => r.json()).catch(() => ({ loggedIn: false }));
+  if (!me.loggedIn || !me.admin) {
+    $('#locked').style.display = 'block';
+    return;
+  }
+  await enterAdmin(me);
+}
+
+async function enterAdmin(me) {
+  $('#locked').style.display = 'none';
+  $('#unlocked').style.display = 'block';
+  $('#who').textContent = `Logged in as ${me.username}`;
+
+  performers = await fetch('/api/performers').then(r => r.json()).catch(() => []);
+  roster = await fetch('/api/roster').then(r => r.json()).catch(() => []);
+  renderPerformers();
+  renderRoster();
+}
+
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const msgEl = $('#locked-msg');
+  msgEl.textContent = 'Logging in…';
+  msgEl.className = 'status-msg';
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: $('#login-username').value,
+        password: $('#login-password').value,
+      }),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || 'Login failed');
+    msgEl.textContent = '';
+    await enterAdmin({ username: $('#login-username').value });
+  } catch (err) {
+    msgEl.textContent = err.message;
+    msgEl.className = 'status-msg err';
+  }
+});
+
+function renderPerformers() {
+  const tbody = $('#performers-table tbody');
+  tbody.innerHTML = '';
+  performers.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input value="${esc(p.icon || '')}" data-f="icon" style="width:50px"></td>
+      <td><input value="${esc(p.image || '')}" data-f="image" placeholder="assets/img/home/performers/…"></td>
+      <td><input value="${esc(p.title || '')}" data-f="title"></td>
+      <td><input value="${esc(p.description || '')}" data-f="description"></td>
+      <td class="row-actions"><button data-del>Remove</button></td>`;
+    tr.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('input', () => {
+        performers[i][inp.dataset.f] = inp.value;
+        $('#performers-json').value = JSON.stringify(performers, null, 2);
+      });
+    });
+    tr.querySelector('[data-del]').addEventListener('click', () => { performers.splice(i, 1); renderPerformers(); });
+    tbody.appendChild(tr);
+  });
+  $('#performers-json').value = JSON.stringify(performers, null, 2);
+}
+
+function renderRoster() {
+  const tbody = $('#roster-table tbody');
+  tbody.innerHTML = '';
+  roster.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input value="${esc(p.name || '')}" data-f="name"></td>
+      <td><input value="${esc(p.callsign || '')}" data-f="callsign" style="width:90px"></td>
+      <td><input value="${esc(p.cid || '')}" data-f="cid" style="width:100px"></td>
+      <td><input value="${esc(p.role || '')}" data-f="role"></td>
+      <td>
+        <select data-f="status">
+          <option value="active" ${p.status === 'active' ? 'selected' : ''}>Active</option>
+          <option value="recruiting" ${p.status === 'recruiting' ? 'selected' : ''}>Recruiting</option>
+        </select>
+      </td>
+      <td class="row-actions"><button data-del>Remove</button></td>`;
+    tr.querySelectorAll('input, select').forEach(inp => {
+      const sync = () => {
+        roster[i][inp.dataset.f] = inp.value;
+        $('#roster-json').value = JSON.stringify(roster, null, 2);
+      };
+      inp.addEventListener('input', sync);
+      inp.addEventListener('change', sync);
+    });
+    tr.querySelector('[data-del]').addEventListener('click', () => { roster.splice(i, 1); renderRoster(); });
+    tbody.appendChild(tr);
+  });
+  $('#roster-json').value = JSON.stringify(roster, null, 2);
+}
+
+function esc(s) { return String(s).replace(/"/g, '&quot;'); }
+
+async function save(resource, data, msgEl) {
+  msgEl.textContent = 'Saving…';
+  msgEl.className = 'status-msg';
+  try {
+    const res = await fetch(`/api/${resource}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || res.status);
+    msgEl.textContent = `Saved (${body.count} entries).`;
+    msgEl.className = 'status-msg ok';
+  } catch (e) {
+    msgEl.textContent = `Failed: ${e.message}`;
+    msgEl.className = 'status-msg err';
+  }
+}
+
+$('#add-performer').addEventListener('click', () => { performers.push({ icon: '✈️', title: '', description: '' }); renderPerformers(); });
+$('#add-roster').addEventListener('click', () => { roster.push({ name: '', callsign: '', cid: '', role: '', status: 'active' }); renderRoster(); });
+$('#save-performers').addEventListener('click', () => save('performers', performers, $('#performers-msg')));
+$('#save-roster').addEventListener('click', () => save('roster', roster, $('#roster-msg')));
+
+$('#save-performers-json').addEventListener('click', () => {
+  try { performers = JSON.parse($('#performers-json').value); renderPerformers(); save('performers', performers, $('#json-msg')); }
+  catch (e) { $('#json-msg').textContent = 'Invalid JSON: ' + e.message; $('#json-msg').className = 'status-msg err'; }
+});
+$('#save-roster-json').addEventListener('click', () => {
+  try { roster = JSON.parse($('#roster-json').value); renderRoster(); save('roster', roster, $('#json-msg')); }
+  catch (e) { $('#json-msg').textContent = 'Invalid JSON: ' + e.message; $('#json-msg').className = 'status-msg err'; }
+});
+
+boot();
+</script>
+
+</body>
+</html>

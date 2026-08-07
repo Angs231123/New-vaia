@@ -4,3 +4,6 @@
 !.dev.vars.example
 .env*
 !.env.example
+.dev.vars
+.wrangler/
+node_modules/

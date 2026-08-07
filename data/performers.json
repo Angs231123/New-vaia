@@ -1,0 +1,29 @@
+[
+  {
+    "image": "https://www.raafvirtual.org/main/img/gallery/gallery-thumb9.jpg",
+    "icon": "🎖️",
+    "title": "RAAF Virtual (RAAFV)",
+    "featured": true,
+    "description": "RAAF Virtual will perform with multiple aircraft types across the weekend, showcasing both fast jet and heavy transport displays.",
+    "highlights": [
+      "Fast Jets — F/A-18F Super Hornet",
+      "Cargo / Transport — C-17A Globemaster III & C-130J Hercules"
+    ]
+  },
+  {
+    "image": "assets/img/home/performers/fsrlts.jpg",
+    "icon": "✈️",
+    "title": "FSRLTS",
+    "description": "A community of passionate virtual aviators who strive to emulate the Royal Australian Air Force Roulettes through formation flying and aerobatic display workups within Microsoft Flight Simulator 2020/2024."
+  },
+  {
+    "icon": "🛩️",
+    "title": "[Warbird Formation]",
+    "description": "Historic aircraft formation flight — list aircraft types and formation size."
+  },
+  {
+    "icon": "🛬",
+    "title": "[Airliner Arrivals]",
+    "description": "Commercial/GA mass arrival slots for static display participants."
+  }
+]

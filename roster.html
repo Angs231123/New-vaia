@@ -3,221 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Performance Roster — Virtual Australian International Airshow</title>
-<meta name="description" content="Public performance roster for the Virtual Australian International Airshow (VAIA) display team, including pilot callsigns, roles, and VATSIM CIDs.">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<title>Pilot Roster — vAIA</title>
+<meta name="description" content="Public roster of vAIA's active pilots and their VATSIM CIDs.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/shared/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/shared/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/shared/apple-touch-icon.png">
+<style>
+  :root {
+    --navy: #0a1e3f; --navy-deep: #061428; --sky: #1e88e5; --raaf-red: #c8102e;
+    --off-white: #f4f6f9; --grey: #8a94a6; --card-bg: #10294f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--off-white); color: #1b2430; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  .placeholder { color: var(--raaf-red); font-style: italic; }
+  header { background: var(--navy-deep); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+  .nav-wrap { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; }
+  .roundel { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle, var(--raaf-red) 35%, white 36%, white 55%, var(--sky) 56%); flex-shrink: 0; }
+  nav ul { list-style: none; display: flex; gap: 22px; flex-wrap: wrap; }
+  nav a { font-size: 0.92rem; font-weight: 600; opacity: 0.85; transition: opacity 0.2s; }
+  nav a:hover { opacity: 1; color: var(--sky); }
+  .page-hero { background: linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 100%); color: white; padding: 60px 24px 50px; }
+  .page-hero .wrap { max-width: 1200px; margin: 0 auto; }
+  .page-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 12px; }
+  .page-hero p { color: #cfd8e6; max-width: 70ch; }
+  section { padding: 60px 24px; max-width: 1200px; margin: 0 auto; }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.07); }
+  thead { background: var(--navy); color: white; }
+  th, td { padding: 14px 18px; text-align: left; font-size: 0.92rem; }
+  tbody tr:nth-child(even) { background: #f1f4f9; }
+  tbody tr:hover { background: #e6edf7; }
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 999px; }
+  .tag-active { background: rgba(41,180,115,0.15); color: #1f9d5e; }
+  .tag-open { background: rgba(30,136,229,0.12); color: var(--sky); }
+  .note-box { margin-top: 22px; font-size: 0.85rem; color: var(--grey); background: white; border: 1px dashed #c7cfdc; border-radius: 8px; padding: 14px 18px; }
+  .note-box strong { color: var(--raaf-red); }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.88rem; }
+  .btn-sheet { background: #1e8e3e; color: white; }
+  footer { background: var(--navy-deep); color: var(--grey); padding: 30px 24px; text-align: center; font-size: 0.85rem; }
+  footer a { color: var(--sky); }
+  .footer-links { margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+</style>
 </head>
-<body class="sky-bg">
+<body>
 
-<header class="site">
-  <div class="nav-inner">
-    <a class="brand" href="index.html">
-      <img src="assets/img/badge-light.png" alt="VAIA badge">
-      <span class="brand-text"><strong>VAIA</strong><span>VIRTUAL AUSTRALIAN INTL. AIRSHOW</span></span>
-    </a>
-    <nav class="primary">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="roster.html" class="active">Roster</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="contact.html">Contact</a>
+<header>
+  <div class="nav-wrap">
+    <a class="brand" href="index.html"><span class="roundel"></span> vAIA</a>
+    <nav>
+      <ul>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#schedule">Schedule</a></li>
+        <li><a href="index.html#performers">Performers</a></li>
+        <li><a href="roster.html">Roster</a></li>
+        <li><a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a></li>
+      </ul>
     </nav>
-    <div style="display:flex;align-items:center;gap:10px">
-      <a class="btn btn-gold" href="contact.html">Join The Team</a>
-      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-    </div>
   </div>
 </header>
 
-<section class="page-hero">
+<div class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">Public Performance Roster</span>
-    <h1>Our display pilots</h1>
-    <p>Per our vSOA classification, VAIA publishes a public roster of every pilot cleared to fly under the team callsign, along with their VATSIM CID for accountability and network verification.</p>
+    <h1>Pilot Roster</h1>
+    <p>Public list of vAIA's active pilots and their VATSIM CIDs, published in line with VATSIM's vSOA requirements for special-operations/demonstration teams.</p>
   </div>
-</section>
+</div>
 
 <section>
-  <div class="wrap">
-    <div class="section-hdr">
-      <span class="eyebrow">Display Flight — Lead Section</span>
-      <h2>Formation leads &amp; solo display pilots</h2>
-      <p>Cleared for public display and rehearsal flying under the VAIA callsign.</p>
-    </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Pilot</th>
-            <th>Callsign</th>
-            <th>Position / Aircraft</th>
-            <th>VATSIM CID</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>— Add Pilot Name —</td>
-            <td>VAIA-1</td>
-            <td>Formation Lead — Fast Jet</td>
-            <td>——————</td>
-            <td><span class="tag tag-lead">Lead</span></td>
-          </tr>
-          <tr>
-            <td>— Add Pilot Name —</td>
-            <td>VAIA-2</td>
-            <td>Right Wing — Fast Jet</td>
-            <td>——————</td>
-            <td><span class="tag tag-display">Display</span></td>
-          </tr>
-          <tr>
-            <td>— Add Pilot Name —</td>
-            <td>VAIA-3</td>
-            <td>Left Wing — Fast Jet</td>
-            <td>——————</td>
-            <td><span class="tag tag-display">Display</span></td>
-          </tr>
-          <tr>
-            <td>— Add Pilot Name —</td>
-            <td>VAIA-4</td>
-            <td>Slot / Tail-End — Fast Jet</td>
-            <td>——————</td>
-            <td><span class="tag tag-display">Display</span></td>
-          </tr>
-          <tr>
-            <td>— Add Pilot Name —</td>
-            <td>VAIA-SOLO</td>
-            <td>Aerobatic Solo — Warbird</td>
-            <td>——————</td>
-            <td><span class="tag tag-display">Display</span></td>
-          </tr>
-          <tr>
-            <td>— Vacant —</td>
-            <td>VAIA-6</td>
-            <td>Reserve / Work-up</td>
-            <td>——————</td>
-            <td><span class="tag tag-open">Recruiting</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="note-box"><strong>Template notice:</strong> Rows above are placeholders. Before this site goes live, replace each row with your actual rostered pilots' names, callsigns, and full VATSIM CIDs, per the vSOA public roster requirement. Only list pilots who have consented to their CID being published.</div>
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:10px;">
+    <h2 style="color:var(--navy); font-size:1.3rem;">Active Pilots</h2>
+    <a class="btn btn-sheet" href="https://docs.google.com/spreadsheets/d/1EFoT_4JHY9eXiI09U7oYhAeuSA0222JGj8x8raS81kQ/edit?usp=sharing" target="_blank" rel="noopener">📄 Open Live Roster (Google Sheets)</a>
   </div>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Callsign</th><th>VATSIM CID</th><th>Role</th><th>Status</th></tr>
+    </thead>
+    <tbody id="roster-tbody">
+      <tr><td colspan="5">Loading roster…</td></tr>
+    </tbody>
+  </table>
+  <div class="note-box"><strong>Template notice:</strong> rows above are placeholders. Replace with your real rostered pilots' names, callsigns, and full VATSIM CIDs before this page goes live — only list pilots who've consented to their CID being published here. This page must stay publicly accessible without login, per VATSIM's vSOA requirements.</div>
 </section>
 
-<section class="alt">
-  <div class="wrap">
-    <div class="section-hdr">
-      <span class="eyebrow">Support &amp; Operations</span>
-      <h2>Ground &amp; ATC support crew</h2>
-      <p>Non-flying roles that keep every display running to schedule.</p>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>VATSIM CID</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>— Add Name —</td>
-            <td>Airshow Director</td>
-            <td>——————</td>
-            <td><span class="tag tag-support">Leadership</span></td>
-          </tr>
-          <tr>
-            <td>— Add Name —</td>
-            <td>Safety &amp; Standards Officer</td>
-            <td>——————</td>
-            <td><span class="tag tag-support">Leadership</span></td>
-          </tr>
-          <tr>
-            <td>— Add Name —</td>
-            <td>ATC Liaison</td>
-            <td>——————</td>
-            <td><span class="tag tag-support">Leadership</span></td>
-          </tr>
-          <tr>
-            <td>— Vacant —</td>
-            <td>Ground / Marshalling Support</td>
-            <td>——————</td>
-            <td><span class="tag tag-open">Recruiting</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="cta-band">
-      <span class="badge-pill">Positions Open</span>
-      <h2>Think you've got the formation skills?</h2>
-      <p>We're recruiting display pilots and support crew for the next season. Bring your VATSIM CID and flight hours.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="contact.html">Apply Now</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="site">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a class="brand" href="index.html">
-          <img src="assets/img/badge-light.png" alt="VAIA badge">
-          <span class="brand-text"><strong>VAIA</strong><span>VIRTUAL AUSTRALIAN INTL. AIRSHOW</span></span>
-        </a>
-        <p>A VATSIM virtual special-operations demonstration team flying formation and display routines over Avalon, Australia. Not affiliated with the real-world Australian International Airshow.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Site</h4>
-        <a href="index.html">Home</a>
-        <a href="about.html">About &amp; Compliance</a>
-        <a href="roster.html">Performance Roster</a>
-        <a href="schedule.html">Schedule</a>
-      </div>
-      <div class="footer-col">
-        <h4>Get Involved</h4>
-        <a href="contact.html">Apply To Join</a>
-        <a href="contact.html">Contact The Team</a>
-        <a href="schedule.html">Spectate A Display</a>
-      </div>
-      <div class="footer-col">
-        <h4>Network</h4>
-        <a href="https://www.vatsim.net" target="_blank" rel="noopener">VATSIM.net ↗</a>
-        <a href="about.html#compliance">vSOA Classification</a>
-        <a href="about.html#airspace">Airspace Coordination</a>
-      </div>
-    </div>
-    <div class="network-strip">
-      <div class="network-badges">
-        <a class="network-badge" href="https://www.vatsim.net" target="_blank" rel="noopener"><span class="dot"></span> VATSIM Network Member</a>
-        <span class="network-badge"><span class="dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></span> vSOA Demonstration Team</span>
-      </div>
-      <span style="font-size:12px;color:var(--text-dim)">Home Base: Avalon Airport (YMAV), Victoria, Australia</span>
-    </div>
-    <div class="legal-row">
-      <span>© <span id="year"></span> Virtual Australian International Airshow. For flight simulation use only.</span>
-      <span>Flown on the <a href="https://www.vatsim.net" target="_blank" rel="noopener">VATSIM</a> network. Not affiliated with Avalon Airport, Airshows Australia, or the real-world Australian International Airshow.</span>
-    </div>
+<footer>
+  <div>© <span id="year"></span> vAIA — Virtual Australian International Airshow. Fan-made virtual aviation event, not affiliated with the real Australian International Airshow.</div>
+  <div class="footer-links">
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a>
+    <a href="index.html">Home</a>
+    <a href="privacy.html">Privacy Policy</a>
   </div>
 </footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
 
-<script src="assets/js/main.js"></script>
+  (function () {
+    var tbody = document.getElementById('roster-tbody');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function render(list) {
+      if (!Array.isArray(list) || !list.length) {
+        tbody.innerHTML = '<tr><td colspan="5">No pilots on the roster yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = list.map(function (p) {
+        var isPh = /^\[.*\]$/.test(String(p.name || '')) || /^\[.*\]$/.test(String(p.cid || ''));
+        var nameCls = isPh ? ' class="placeholder"' : '';
+        var cidCls = /^\[.*\]$/.test(String(p.cid || '')) ? ' class="placeholder"' : '';
+        var tag = p.status === 'recruiting'
+          ? '<span class="tag tag-open">Recruiting</span>'
+          : '<span class="tag tag-active">Active</span>';
+        return '<tr>' +
+          '<td' + nameCls + '>' + esc(p.name) + '</td>' +
+          '<td>' + esc(p.callsign) + '</td>' +
+          '<td' + cidCls + '>' + esc(p.cid) + '</td>' +
+          '<td>' + esc(p.role) + '</td>' +
+          '<td>' + tag + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+    fetch('/api/roster')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(render)
+      .catch(function () {
+        fetch('data/roster.json').then(function (r) { return r.json(); }).then(render).catch(function () {
+          tbody.innerHTML = '<tr><td colspan="5">Roster unavailable.</td></tr>';
+        });
+      });
+  })();
+</script>
+
 </body>
 </html>

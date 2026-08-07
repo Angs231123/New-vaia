@@ -3,205 +3,700 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Virtual Australian International Airshow — VAIA</title>
-<meta name="description" content="The Virtual Australian International Airshow (VAIA) is a VATSIM virtual special-operations demonstration team performing formation and display flying over Avalon, Australia.">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
-<link rel="icon" type="image/png" sizes="64x64" href="assets/img/favicon-64.png">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body class="sky-bg">
+<title>vAIA — Virtual Australian International Airshow</title>
+<meta name="description" content="vAIA — Virtual Australian International Airshow, in collaboration with VATPAC, RAAFV, and FSRLTS. Flying displays, static park, and warbird formations flown by community pilots on Microsoft Flight Simulator with real VATSIM air traffic control.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/shared/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/img/shared/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/img/shared/apple-touch-icon.png">
+<style>
+  :root {
+    --navy: #0a1e3f;
+    --navy-deep: #061428;
+    --sky: #1e88e5;
+    --raaf-red: #c8102e;
+    --off-white: #f4f6f9;
+    --grey: #8a94a6;
+    --card-bg: #10294f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--off-white);
+    color: #1b2430;
+    line-height: 1.6;
+  }
+  a { color: inherit; text-decoration: none; }
+  .placeholder { color: var(--raaf-red); font-style: italic; }
 
-<header class="site">
-  <div class="nav-inner">
-    <a class="brand" href="index.html">
-      <img src="assets/img/badge-light.png" alt="VAIA badge">
-      <span class="brand-text"><strong>VAIA</strong><span>VIRTUAL AUSTRALIAN INTL. AIRSHOW</span></span>
-    </a>
-    <nav class="primary">
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
-      <a href="roster.html">Roster</a>
-      <a href="schedule.html">Schedule</a>
-      <a href="contact.html">Contact</a>
+  /* NAV */
+  header {
+    background: var(--navy-deep);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .nav-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.3rem; }
+  .roundel {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: radial-gradient(circle, var(--raaf-red) 35%, white 36%, white 55%, var(--sky) 56%);
+    flex-shrink: 0;
+  }
+  nav ul { list-style: none; display: flex; gap: 22px; flex-wrap: wrap; }
+  nav a { font-size: 0.92rem; font-weight: 600; opacity: 0.85; transition: opacity 0.2s; }
+  nav a:hover { opacity: 1; color: var(--sky); }
+
+  /* HERO */
+  .hero {
+    background:
+      linear-gradient(160deg, rgba(10,30,63,0.88) 0%, rgba(6,20,40,0.93) 100%),
+      url('assets/img/home/hero/fsrlts-formation.jpg');
+    background-size: cover;
+    background-position: center 35%;
+    color: white;
+    text-align: center;
+    padding: 90px 24px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: "";
+    position: absolute;
+    right: -120px; top: -120px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(30,136,229,0.25), transparent 70%);
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .hero .sub {
+    margin-top: 14px;
+    font-size: 1.15rem;
+    color: #cfd8e6;
+  }
+  .hero .meta {
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-size: 0.95rem;
+  }
+  .hero .meta div strong { display: block; font-size: 1.1rem; color: white; }
+  .hero .meta div span { color: var(--grey); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+  .cta-row { margin-top: 34px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 13px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-primary { background: var(--raaf-red); color: white; }
+  .btn-secondary { background: transparent; color: white; border: 2px solid rgba(255,255,255,0.4); }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.3); }
+
+  /* COUNTDOWN */
+  .countdown {
+    background: var(--navy-deep);
+    color: white;
+    padding: 26px 24px;
+    text-align: center;
+  }
+  .countdown-grid {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .countdown-grid .box { min-width: 80px; }
+  .countdown-grid .num { font-size: 2.1rem; font-weight: 800; color: var(--sky); }
+  .countdown-grid .lbl { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--grey); }
+
+  /* SECTIONS */
+  section { padding: 70px 24px; max-width: 1200px; margin: 0 auto; }
+  .section-title { text-align: center; margin-bottom: 12px; }
+  .section-title h2 { font-size: 2rem; color: var(--navy); font-weight: 800; }
+  .section-title p { color: var(--grey); max-width: 640px; margin: 10px auto 0; }
+  .divider { width: 70px; height: 4px; background: var(--raaf-red); margin: 16px auto 0; border-radius: 2px; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; margin-top: 40px; }
+  .about-grid .img-placeholder {
+    background: var(--navy);
+    border-radius: 12px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--grey);
+    font-weight: 600;
+    overflow: hidden;
+  }
+  .about-grid .img-placeholder img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+
+  /* SCHEDULE TABLE */
+  table { width: 100%; border-collapse: collapse; margin-top: 30px; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,0.07); }
+  thead { background: var(--navy); color: white; }
+  th, td { padding: 14px 18px; text-align: left; font-size: 0.92rem; }
+  tbody tr:nth-child(even) { background: #f1f4f9; }
+  tbody tr:hover { background: #e6edf7; }
+
+  /* CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin-top: 40px; }
+  .card {
+    background: var(--card-bg);
+    color: white;
+    border-radius: 12px;
+    padding: 26px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  }
+  .card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .card p { color: #c3cede; font-size: 0.9rem; }
+  .card-img {
+    width: calc(100% + 52px); height: 140px; overflow: hidden;
+    margin: -26px -26px 16px -26px; border-radius: 12px 12px 0 0;
+    background: #0a1830;
+  }
+  .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* PERFORMER BLOCKS — full-width */
+  .performer-blocks { display: flex; flex-direction: column; gap: 24px; margin-top: 40px; }
+  .performer-block {
+    background: var(--card-bg); color: white; border-radius: 14px;
+    display: flex; flex-wrap: wrap; overflow: hidden;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  }
+  .performer-block.featured { outline: 2px solid var(--sky); }
+  .performer-block .pb-media { flex: 1 1 320px; min-height: 220px; background: #0a1830; }
+  .performer-block .pb-media img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 220px; }
+  .performer-block .pb-media .icon { font-size: 3rem; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .performer-block .pb-body { flex: 1 1 360px; padding: 32px; display: flex; flex-direction: column; justify-content: center; }
+  .performer-block .pb-badge {
+    display: inline-block; background: var(--sky); color: white; font-size: 0.7rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 20px;
+    margin-bottom: 12px; width: fit-content;
+  }
+  .performer-block h3 { font-size: 1.4rem; margin-bottom: 10px; }
+  .performer-block p { color: #c3cede; font-size: 0.95rem; margin-bottom: 14px; }
+  .performer-block .pb-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .performer-block .pb-highlights li {
+    color: #dbe2ec; font-size: 0.88rem; padding-left: 22px; position: relative;
+  }
+  .performer-block .pb-highlights li::before { content: "✈"; position: absolute; left: 0; color: var(--sky); }
+
+  .light-card {
+    background: white;
+    border: 1px solid #e3e8f0;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  /* RULES */
+  .rules-list { margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 20px; }
+  .rules-list .light-card h3 { color: var(--navy); margin-bottom: 8px; font-size: 1.05rem; }
+  .rules-list .light-card p, .rules-list .light-card li { color: #465064; font-size: 0.92rem; }
+  .rules-list ul { padding-left: 18px; margin-top: 6px; }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 16px; margin-top: 40px; }
+  .gallery-grid .g-item {
+    background: repeating-linear-gradient(135deg, #cfd8e6, #cfd8e6 12px, #dbe2ec 12px, #dbe2ec 24px);
+    height: 160px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--grey); font-size: 0.85rem; font-weight: 600;
+    overflow: hidden;
+  }
+  .gallery-grid .g-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* FAQ */
+  .faq-item { border-bottom: 1px solid #e3e8f0; padding: 18px 0; }
+  .faq-item h3 { font-size: 1.02rem; color: var(--navy); margin-bottom: 6px; }
+  .faq-item p { color: #465064; font-size: 0.92rem; }
+
+  /* PARTNERS */
+  .partner-row { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; margin-top: 36px; }
+  .partner-badge {
+    width: 140px; height: 70px;
+    border: 2px dashed #c7cfdc;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--grey); font-size: 0.85rem; font-weight: 600;
+  }
+
+  /* CONTACT / FOOTER */
+  .contact-band { background: var(--navy); color: white; text-align: center; padding: 60px 24px; }
+  .contact-band h2 { font-size: 1.8rem; margin-bottom: 10px; }
+  .contact-band p { color: #cfd8e6; max-width: 500px; margin: 0 auto 26px; }
+  footer {
+    background: var(--navy-deep);
+    color: var(--grey);
+    padding: 30px 24px;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--sky); }
+  .footer-links { margin-top: 10px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+
+  .bg-alt { background: #eef1f6; }
+
+  /* EYEBROW / VATSIM BADGE */
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #7fd4c8; background: rgba(74,158,218,0.12); border: 1px solid rgba(74,158,218,0.35);
+    padding: 7px 14px; border-radius: 999px; margin-bottom: 18px;
+  }
+
+  /* NAV EXTRAS */
+  .nav-login {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid rgba(255,255,255,0.35); border-radius: 6px;
+    padding: 7px 14px; font-size: 0.82rem; font-weight: 700; color: white;
+    opacity: 0.9;
+  }
+  .nav-login:hover { opacity: 1; border-color: var(--sky); color: var(--sky); }
+  .nav-login .dot { width: 7px; height: 7px; border-radius: 50%; background: #2ecC71; }
+
+  /* PARTNER LOGO CARDS */
+  .partner-card {
+    width: 200px; min-height: 120px;
+    background: white;
+    border: 1px solid #e3e8f0;
+    border-radius: 10px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    gap: 8px;
+    text-align: center;
+  }
+  .partner-card.tbd { border: 2px dashed #c7cfdc; box-shadow: none; }
+  .partner-card img { max-width: 100%; max-height: 56px; object-fit: contain; }
+  .partner-card .ph-label { color: var(--raaf-red); font-style: italic; font-size: 0.78rem; }
+  .partner-card .ph-name { color: var(--navy); font-weight: 700; font-size: 0.95rem; }
+  .partner-note {
+    max-width: 760px; margin: 30px auto 0; text-align: center;
+    font-size: 0.85rem; color: var(--grey); background: #f4f6f9; border: 1px dashed #c7cfdc;
+    border-radius: 8px; padding: 14px 18px;
+  }
+  .partner-note strong { color: var(--raaf-red); }
+
+  /* GDPR CONSENT BANNER */
+  #gdpr-banner {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 999;
+    background: var(--navy-deep); color: #cfd8e6;
+    padding: 16px 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    display: none;
+  }
+  #gdpr-banner.show { display: flex; }
+  .gdpr-inner {
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  }
+  .gdpr-inner p { font-size: 0.85rem; max-width: 760px; }
+  .gdpr-inner a { color: var(--sky); text-decoration: underline; }
+  .gdpr-actions { display: flex; gap: 10px; flex-shrink: 0; }
+  .gdpr-actions button {
+    border: none; border-radius: 6px; padding: 10px 18px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+  }
+  #gdpr-accept { background: var(--raaf-red); color: white; }
+  #gdpr-dismiss { background: transparent; color: #cfd8e6; border: 1px solid rgba(255,255,255,0.3) !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="brand"><span class="roundel"></span> vAIA</div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#performers">Performers</a></li>
+        <li><a href="#booking">Slot Booking</a></li>
+        <li><a href="#rules">ATC &amp; Rules</a></li>
+        <li><a href="roster.html">Roster</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a></li>
+      </ul>
     </nav>
-    <div style="display:flex;align-items:center;gap:10px">
-      <a class="btn btn-gold" href="contact.html">Join The Team</a>
-      <button class="nav-toggle" aria-label="Toggle menu">☰</button>
-    </div>
+    <a class="nav-login" href="admin.html" title="Admin login — requires the site to be deployed on Cloudflare Pages, see README">
+      <span class="dot"></span> Admin Login
+    </a>
   </div>
 </header>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-grid">
+<div class="hero">
+  <span class="eyebrow">✈ Flown live on the VATSIM Network</span>
+  <h1>vAIA — Virtual Australian International Airshow</h1>
+  <p class="sub">vAIA brings the excitement of Avalon Airshow to the virtual skies, in collaboration with VATPAC, RAAFV, and FSRLTS — full flying displays, static park showcases, and warbird formations, flown entirely by community pilots across Microsoft Flight Simulator, with live air traffic control provided by real VATSIM controllers.</p>
+  <div class="meta">
+    <div><strong>Last Weekend of Jan 2027</strong><span>Event Dates</span></div>
+    <div><strong>YMAV — Avalon</strong><span>Virtual Location</span></div>
+    <div><strong>VATSIM</strong><span>ATC Network</span></div>
+  </div>
+  <div class="cta-row">
+    <a href="#booking" class="btn btn-primary">Book Your Slot</a>
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener" class="btn btn-secondary">Join the Discord</a>
+  </div>
+</div>
+
+<!-- COUNTDOWN -->
+<div class="countdown">
+  <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:#8a94a6;">Countdown to vAIA</div>
+  <div class="countdown-grid" id="countdown">
+    <div class="box"><div class="num" id="cd-days">--</div><div class="lbl">Days</div></div>
+    <div class="box"><div class="num" id="cd-hours">--</div><div class="lbl">Hours</div></div>
+    <div class="box"><div class="num" id="cd-mins">--</div><div class="lbl">Minutes</div></div>
+    <div class="box"><div class="num" id="cd-secs">--</div><div class="lbl">Seconds</div></div>
+  </div>
+</div>
+<script>
+  // Last weekend of January 2027 — Saturday 30 Jan, 09:00 AEDT
+  var EVENT_DATE = new Date("2027-01-30T09:00:00+11:00");
+  function tickCountdown() {
+    var now = new Date();
+    var diff = EVENT_DATE - now;
+    if (diff < 0) diff = 0;
+    var d = Math.floor(diff / (1000*60*60*24));
+    var h = Math.floor((diff / (1000*60*60)) % 24);
+    var m = Math.floor((diff / (1000*60)) % 60);
+    var s = Math.floor((diff / 1000) % 60);
+    document.getElementById('cd-days').textContent = d;
+    document.getElementById('cd-hours').textContent = h;
+    document.getElementById('cd-mins').textContent = m;
+    document.getElementById('cd-secs').textContent = s;
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+</script>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-title">
+    <h2>About the Event</h2>
+    <div class="divider"></div>
+    <p>What vAIA is, and why it exists.</p>
+  </div>
+  <div class="about-grid">
     <div>
-      <span class="eyebrow">★ VATSIM vSOA Demonstration Team</span>
-      <h1>Formation flying over <span class="accent">Avalon</span>, virtually.</h1>
-      <p class="lead">VAIA is a volunteer virtual special-operations team on the VATSIM network, recreating the Australian International Airshow with formation aerobatics, display flying, and full airspace coordination — built by simmers, flown by simmers.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="schedule.html">View Schedule</a>
-        <a class="btn btn-outline" href="roster.html">Meet The Pilots</a>
-      </div>
+      <p>vAIA (Virtual Australian International Airshow) brings the excitement of Avalon Airshow to the virtual skies. Recreated over a custom-built Avalon Airport scenery, vAIA features full flying displays, static park showcases, and warbird formations — all flown entirely by community pilots across Microsoft Flight Simulator, with live air traffic control provided by real VATSIM controllers.</p>
+      <br>
+      <p>Hosted in partnership with VATSIM, VATPAC, RAAF Virtual (RAAFV), and FSRLTS, vAIA is one of the premier virtual airshow events on the VATSIM network, bringing together pilots, controllers, and aviation enthusiasts from across Australia and around the world for a weekend of formation flying, warbird recreations, and airshow spectacle. The event will next take place on the last weekend of January 2027.</p>
     </div>
-    <div class="hero-art">
-      <img src="assets/img/hero-banner.png" alt="Virtual Australian International Airshow formation over Avalon">
-    </div>
+    <div class="img-placeholder"><img src="assets/img/home/hero-banner.png" alt="Virtual Australian International Airshow"></div>
   </div>
+</section>
 
-  <div class="wrap">
-    <div class="stat-row">
-      <div class="stat-card"><div class="num">10</div><div class="lbl">Flights / 60 Days</div></div>
-      <div class="stat-card"><div class="num">100%</div><div class="lbl">ATC Coordinated</div></div>
-      <div class="stat-card"><div class="num">VATSIM</div><div class="lbl">Network Certified</div></div>
-      <div class="stat-card"><div class="num">Avalon</div><div class="lbl">Home Airfield — YMAV</div></div>
+<!-- SCHEDULE -->
+<section id="schedule" class="bg-alt">
+  <div class="section-title">
+    <h2>Event Schedule</h2>
+    <div class="divider"></div>
+    <p>Full itinerary — replace times and activities with your confirmed running order.</p>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Day</th><th>Time (Local)</th><th>Activity</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Fri 29 Jan 2027 — Arrival</td><td class="placeholder">[TIME]</td><td>Pilot arrivals &amp; airport slot check-in</td></tr>
+      <tr><td>Fri 29 Jan 2027 — Arrival</td><td class="placeholder">[TIME]</td><td>Static display opens (walkaround screenshots)</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Opening ceremony &amp; RAAF flypast</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Aerobatic display team routine</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Warbird formation flight</td></tr>
+      <tr><td>Sat 30 Jan 2027 — Airshow</td><td class="placeholder">[TIME]</td><td>Fast jet solo display</td></tr>
+      <tr><td>Sun 31 Jan 2027 — Departure</td><td class="placeholder">[TIME]</td><td>Mass departure &amp; event close</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PERFORMERS -->
+<section id="performers">
+  <div class="section-title">
+    <h2>Performers</h2>
+    <div class="divider"></div>
+    <p>The formations and performers confirmed to fly at vAIA.</p>
+  </div>
+  <div class="performer-blocks" id="performers-grid">
+    <div class="performer-block"><div class="pb-body"><p>Loading performers…</p></div></div>
+  </div>
+</section>
+
+<!-- SLOT BOOKING -->
+<section id="booking" class="bg-alt">
+  <div class="section-title">
+    <h2>Slot Booking &amp; Registration</h2>
+    <div class="divider"></div>
+    <p>How pilots and controllers sign up to take part.</p>
+  </div>
+  <div class="card-grid" style="margin-top:40px;">
+    <div class="light-card">
+      <h3 style="color:var(--navy); margin-bottom:8px;">✈️ Display Pilot Application</h3>
+      <p style="color:#465064; font-size:0.9rem; margin-bottom:16px;">Book a static display or flying display slot.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSczLC2YddvE0TF65_nK7hlp-0e9uKzeDieJrSQvYlrfRzieaA/viewform?usp=sharing&ouid=101338411277265161935" target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--sky); width:100%; text-align:center;">Apply to Fly</a>
+    </div>
+    <div class="light-card">
+      <h3 style="color:var(--navy); margin-bottom:8px;">🎧 Staff Application</h3>
+      <p style="color:#465064; font-size:0.9rem; margin-bottom:16px;">Sign up to control, marshal, or help run the event.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScRJzYrMvM5bfazUnrRjLF8vN2BPhI6crrK4Ks5C0MYloBtSA/viewform?usp=sharing&ouid=101338411277265161935" target="_blank" rel="noopener" class="btn btn-primary" style="background:var(--sky); width:100%; text-align:center;">Apply for Staff</a>
+    </div>
+    <div class="light-card">
+      <h3 style="color:var(--navy); margin-bottom:8px;">📸 Spectator Pass</h3>
+      <p style="color:#465064; font-size:0.9rem;">No slot required — just connect and watch, or follow the livestream. <span class="placeholder">[Add stream link]</span></p>
     </div>
   </div>
 </section>
 
-<!-- NEXT EVENT COUNTDOWN -->
-<section class="alt">
-  <div class="wrap">
-    <div class="section-hdr center" style="max-width:700px">
-      <span class="eyebrow">Next Public Display</span>
-      <h2>Countdown to showtime</h2>
-      <p>Every display is coordinated with the local vACC in advance. Full block times and frequencies are published on the Schedule page.</p>
+<!-- ATC & RULES -->
+<section id="rules">
+  <div class="section-title">
+    <h2>ATC Coverage &amp; Rules of the Air</h2>
+    <div class="divider"></div>
+    <p>Safety and airspace procedures for the event.</p>
+  </div>
+  <div class="rules-list">
+    <div class="light-card">
+      <h3>Airspace &amp; Frequencies</h3>
+      <ul>
+        <li class="placeholder">[Tower / Approach / Centre frequencies]</li>
+        <li class="placeholder">[Display line altitude restrictions]</li>
+        <li class="placeholder">[Holding pattern / arrival procedure]</li>
+      </ul>
     </div>
-    <div class="center">
-      <div id="countdown" data-target="2026-09-05T00:00:00+10:00">
-        <div style="display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:14px">
-          <div class="stat-card" style="min-width:90px"><div class="num" id="cd-d">00</div><div class="lbl">Days</div></div>
-          <div class="stat-card" style="min-width:90px"><div class="num" id="cd-h">00</div><div class="lbl">Hours</div></div>
-          <div class="stat-card" style="min-width:90px"><div class="num" id="cd-m">00</div><div class="lbl">Minutes</div></div>
-          <div class="stat-card" style="min-width:90px"><div class="num" id="cd-s">00</div><div class="lbl">Seconds</div></div>
-        </div>
-        <p class="cd-label" style="color:var(--text-dim);font-size:13px">Target date is an example — confirm against the <a href="schedule.html">Schedule page</a>.</p>
-      </div>
+    <div class="light-card">
+      <h3>Display Flying Rules</h3>
+      <ul>
+        <li class="placeholder">[Minimum display altitude]</li>
+        <li class="placeholder">[No-fly zones over crowd line]</li>
+        <li class="placeholder">[Formation spacing requirements]</li>
+      </ul>
+    </div>
+    <div class="light-card">
+      <h3>Briefing &amp; Charts</h3>
+      <ul>
+        <li class="placeholder">[Link to pilot briefing PDF]</li>
+        <li class="placeholder">[AIRAC / chart pack download]</li>
+        <li class="placeholder">[Required scenery / addon list]</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- WHAT WE DO -->
-<section>
-  <div class="wrap">
-    <div class="section-hdr">
-      <span class="eyebrow">What We Do</span>
-      <h2>A fully coordinated virtual airshow</h2>
-      <p>From tight formation passes to solo aerobatic sequences, every VAIA display is planned, rehearsed, and flown under a real operating framework.</p>
+<!-- GALLERY -->
+<section id="gallery" class="bg-alt">
+  <div class="section-title">
+    <h2>Gallery</h2>
+    <div class="divider"></div>
+    <p>In-sim screenshots from the community.</p>
+  </div>
+  <div class="gallery-grid" id="gallery-grid">
+    <div class="g-item">Loading…</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-title">
+    <h2>Frequently Asked Questions</h2>
+    <div class="divider"></div>
+  </div>
+  <div style="max-width:760px; margin:30px auto 0;">
+    <div class="faq-item">
+      <h3>Which flight simulators can I use?</h3>
+      <p>Microsoft Flight Simulator. <span class="placeholder">[Confirm exact supported versions — e.g. MSFS 2020 and/or 2024]</span></p>
     </div>
-    <div class="card-grid">
-      <div class="card">
-        <div class="icon">✈</div>
-        <h3>Formation Display Flying</h3>
-        <p>Rostered pilots fly choreographed formation passes, tail-chases, and solo aerobatic routines in fast jets and warbirds.</p>
-      </div>
-      <div class="card">
-        <div class="icon">📡</div>
-        <h3>Live ATC Coordination</h3>
-        <p>Every display window is pre-briefed with the controlling vACC/ARTCC, with dedicated display frequencies and NOTAM-style bulletins.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🛬</div>
-        <h3>Home At Avalon (YMAV)</h3>
-        <p>Based at Avalon Airport, Victoria — home of the real Australian International Airshow — with hangar ops and static displays.</p>
-      </div>
-      <div class="card">
-        <div class="icon">📋</div>
-        <h3>Currency &amp; Standards</h3>
-        <p>Rostered pilots maintain currency with 10 flights every 60 days under the team callsign to stay display-qualified.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🎓</div>
-        <h3>Pilot Development</h3>
-        <p>Structured work-ups from solo circuits to two-ship and four-ship formation before display clearance.</p>
-      </div>
-      <div class="card">
-        <div class="icon">🌐</div>
-        <h3>VATSIM Network</h3>
-        <p>Operating openly on the VATSIM network under the vSOA framework for special events and demonstration teams.</p>
-      </div>
+    <div class="faq-item">
+      <h3>Do I need to book a slot to attend?</h3>
+      <p class="placeholder">[Explain spectator vs. participant requirements]</p>
+    </div>
+    <div class="faq-item">
+      <h3>Is there a required scenery or livery pack?</h3>
+      <p class="placeholder">[List download links and installation notes]</p>
+    </div>
+    <div class="faq-item">
+      <h3>Where can I watch if I'm not flying?</h3>
+      <p class="placeholder">[Twitch / YouTube stream link]</p>
     </div>
   </div>
 </section>
 
-<!-- ABOUT TEASER -->
-<section class="alt">
-  <div class="wrap two-col">
-    <div class="img-frame"><img src="assets/img/hangar-banner.png" alt="VAIA hangar operations at Avalon"></div>
-    <div>
-      <span class="eyebrow">The Hangar</span>
-      <h2 style="color:#fff;font-size:clamp(24px,3.4vw,34px);margin-bottom:16px">Built by a crew that flies together</h2>
-      <p style="color:var(--text-dim);margin-bottom:22px">VAIA started as a handful of virtual pilots who wanted to bring the atmosphere of Avalon's international airshow into the sim world — real coordination, real currency standards, and a genuine sense of occasion for every display.</p>
-      <a class="btn btn-outline" href="about.html">Read Our Story →</a>
+<!-- PARTNERS -->
+<section id="partners" class="bg-alt">
+  <div class="section-title">
+    <h2>Partners &amp; Supporting Organisations</h2>
+    <div class="divider"></div>
+    <p>vAIA is hosted in partnership with VATSIM, VATPAC, RAAF Virtual (RAAFV), and FSRLTS.</p>
+  </div>
+  <div class="partner-row">
+    <a class="partner-card" href="https://www.vatsim.net" target="_blank" rel="noopener">
+      <img src="assets/img/home/vatsim-logo.png" alt="VATSIM">
+    </a>
+    <a class="partner-card" href="https://www.vatsim.net" target="_blank" rel="noopener">
+      <img src="assets/img/home/vatsim-special-ops-logo.png" alt="VATSIM Special Operations">
+    </a>
+    <a class="partner-card" href="https://vatpac.org/" target="_blank" rel="noopener">
+      <img src="assets/img/home/vatpac-logo.png" alt="VATPAC — VATSIM Australia Pacific">
+    </a>
+    <div class="partner-card tbd">
+      <span class="ph-name">RAAF Virtual</span>
+      <span class="ph-label">[logo needed]</span>
     </div>
+    <div class="partner-card tbd">
+      <span class="ph-name">FSRLTS</span>
+      <span class="ph-label">[logo needed]</span>
+    </div>
+  </div>
+  <div class="partner-note">
+    <strong>Note:</strong> the VATSIM, VATSIM Special Operations, and VATPAC logos above are real, official marks. RAAFV's and FSRLTS's marks are still placeholders — their real logo files need to be supplied before launch. See the README for what's needed.
   </div>
 </section>
 
-<!-- CTA -->
-<section>
-  <div class="wrap">
-    <div class="cta-band">
-      <span class="badge-pill">Recruiting Now</span>
-      <h2>Want to fly display formation?</h2>
-      <p>We're building out the roster — bring your VATSIM CID and your best formation stick skills.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-gold" href="contact.html">Apply To Join</a>
-        <a class="btn btn-outline" href="roster.html">See Current Roster</a>
-      </div>
-    </div>
+<!-- CONTACT -->
+<div class="contact-band" id="contact">
+  <h2>Join the Community</h2>
+  <p>Get event updates, book your slot, and chat with other pilots and controllers on our Discord server.</p>
+  <div class="cta-row">
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener" class="btn btn-primary">Join Discord</a>
+    <a href="mailto:angusjones185@gmail.com" class="btn btn-secondary">Email the Team</a>
   </div>
-</section>
+</div>
 
-<!-- FOOTER -->
-<footer class="site">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a class="brand" href="index.html">
-          <img src="assets/img/badge-light.png" alt="VAIA badge">
-          <span class="brand-text"><strong>VAIA</strong><span>VIRTUAL AUSTRALIAN INTL. AIRSHOW</span></span>
-        </a>
-        <p>A VATSIM virtual special-operations demonstration team flying formation and display routines over Avalon, Australia. Not affiliated with the real-world Australian International Airshow.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Site</h4>
-        <a href="index.html">Home</a>
-        <a href="about.html">About &amp; Compliance</a>
-        <a href="roster.html">Performance Roster</a>
-        <a href="schedule.html">Schedule</a>
-      </div>
-      <div class="footer-col">
-        <h4>Get Involved</h4>
-        <a href="contact.html">Apply To Join</a>
-        <a href="contact.html">Contact The Team</a>
-        <a href="schedule.html">Spectate A Display</a>
-      </div>
-      <div class="footer-col">
-        <h4>Network</h4>
-        <a href="https://www.vatsim.net" target="_blank" rel="noopener">VATSIM.net ↗</a>
-        <a href="about.html#compliance">vSOA Classification</a>
-        <a href="about.html#airspace">Airspace Coordination</a>
-      </div>
-    </div>
-
-    <div class="network-strip">
-      <div class="network-badges">
-        <a class="network-badge" href="https://www.vatsim.net" target="_blank" rel="noopener"><span class="dot"></span> VATSIM Network Member</a>
-        <span class="network-badge"><span class="dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></span> vSOA Demonstration Team</span>
-      </div>
-      <span style="font-size:12px;color:var(--text-dim)">Home Base: Avalon Airport (YMAV), Victoria, Australia</span>
-    </div>
-
-    <div class="legal-row">
-      <span>© <span id="year"></span> Virtual Australian International Airshow. For flight simulation use only.</span>
-      <span>Flown on the <a href="https://www.vatsim.net" target="_blank" rel="noopener">VATSIM</a> network. Not affiliated with Avalon Airport, Airshows Australia, or the real-world Australian International Airshow.</span>
-    </div>
+<footer>
+  <div>© <span id="year"></span> vAIA — Virtual Australian International Airshow. Fan-made virtual aviation event, not affiliated with the real Australian International Airshow.</div>
+  <div style="margin-top:6px; font-size:0.8rem; color:var(--grey);">In collaboration with VATPAC, RAAFV, and FSRLTS.</div>
+  <div class="footer-links">
+    <a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a>
+    <a href="#">Twitch</a>
+    <a href="#">YouTube</a>
+    <a href="#">Instagram</a>
+    <a href="roster.html">Pilot Roster</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="admin.html">Admin</a>
   </div>
 </footer>
 
-<script src="assets/js/main.js"></script>
+<!-- GDPR CONSENT -->
+<div id="gdpr-banner">
+  <div class="gdpr-inner">
+    <p>vAIA collects limited personal data (e.g. your VATSIM CID and contact details) when you apply to fly, book a slot, or contact the team, in line with our <a href="privacy.html">Privacy Policy</a>. By continuing to use this site you consent to that collection under GDPR.</p>
+    <div class="gdpr-actions">
+      <button id="gdpr-dismiss" type="button">Dismiss</button>
+      <button id="gdpr-accept" type="button">Accept</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Performers: try the live API first (Cloudflare Pages), fall back to the
+  // bundled static JSON (works even on plain GitHub Pages with no backend).
+  (function () {
+    var grid = document.getElementById('performers-grid');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function jsEsc(s) { return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
+    function render(list) {
+      if (!Array.isArray(list) || !list.length) {
+        grid.innerHTML = '<div class="performer-block"><div class="pb-body"><p>No performers announced yet — check back soon.</p></div></div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (p) {
+        var title = p.title || '';
+        var isPlaceholder = title.indexOf('[') === 0;
+        var icon = esc(p.icon || '✈️');
+        var media = p.image
+          ? '<div class="pb-media"><img src="' + esc(p.image) + '" alt="' + esc(title) + '" ' +
+            'onerror="this.parentElement.innerHTML=\'<div class=&quot;icon&quot;>' + jsEsc(icon) + '</div>\'"></div>'
+          : '<div class="pb-media"><div class="icon">' + icon + '</div></div>';
+        var badge = p.featured ? '<span class="pb-badge">Featured Performer</span>' : '';
+        var highlights = Array.isArray(p.highlights) && p.highlights.length
+          ? '<ul class="pb-highlights">' + p.highlights.map(function (h) { return '<li>' + esc(h) + '</li>'; }).join('') + '</ul>'
+          : '';
+        return '<div class="performer-block' + (p.featured ? ' featured' : '') + '">' +
+          media +
+          '<div class="pb-body">' +
+          badge +
+          '<h3' + (isPlaceholder ? ' class="placeholder"' : '') + '>' + esc(title) + '</h3>' +
+          '<p>' + esc(p.description || '') + '</p>' +
+          highlights +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+    fetch('/api/performers')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(render)
+      .catch(function () {
+        fetch('data/performers.json').then(function (r) { return r.json(); }).then(render).catch(function () {
+          grid.innerHTML = '<div class="performer-block"><div class="pb-body"><p>Performers list unavailable.</p></div></div>';
+        });
+      });
+  })();
+
+  // Gallery: same live-API-then-static-fallback pattern, reading images from data/gallery.json.
+  (function () {
+    var grid = document.getElementById('gallery-grid');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function render(list) {
+      if (!Array.isArray(list) || !list.length) {
+        grid.innerHTML = '<div class="g-item">No photos yet</div>';
+        return;
+      }
+      grid.innerHTML = list.map(function (item) {
+        var alt = item.alt || 'Gallery photo';
+        if (item.image) {
+          return '<div class="g-item"><img src="' + esc(item.image) + '" alt="' + esc(alt) + '" ' +
+            'onerror="this.parentElement.textContent=\'' + alt.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\'"></div>';
+        }
+        return '<div class="g-item">' + esc(alt) + '</div>';
+      }).join('');
+    }
+    fetch('/api/gallery')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(render)
+      .catch(function () {
+        fetch('data/gallery.json').then(function (r) { return r.json(); }).then(render).catch(function () {
+          grid.innerHTML = '<div class="g-item">Gallery unavailable</div>';
+        });
+      });
+  })();
+
+  (function () {
+    var KEY = 'vaia-gdpr-consent';
+    var banner = document.getElementById('gdpr-banner');
+    if (!localStorage.getItem(KEY)) {
+      banner.classList.add('show');
+    }
+    function dismiss() {
+      localStorage.setItem(KEY, '1');
+      banner.classList.remove('show');
+    }
+    document.getElementById('gdpr-accept').addEventListener('click', dismiss);
+    document.getElementById('gdpr-dismiss').addEventListener('click', dismiss);
+  })();
+</script>
+
 </body>
 </html>
