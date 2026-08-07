@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "vaia",
+  "name": "new-vaia",
   "main": "_worker.js",
   "compatibility_date": "2026-07-15",
   "observability": {
@@ -17,6 +17,12 @@
     {
       "binding": "VAIA_KV",
       "id": "3e4b4a7825024eb7aae9048a60498b89"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "vaustralianintlairshow.com",
+      "custom_domain": true
     }
   ]
 }
