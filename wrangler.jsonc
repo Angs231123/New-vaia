@@ -1,14 +1,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "vaia",
+  "main": "_worker.js",
   "compatibility_date": "2026-07-15",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "VAIA_KV",
+      "id": "3e4b4a7825024eb7aae9048a60498b89"
+    }
   ]
 }
