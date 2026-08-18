@@ -1,6 +1,6 @@
 [
   {
-    "image": "https://www.raafvirtual.org/main/img/gallery/gallery-thumb9.jpg",
+    "image": "assets/img/home/performers/raafv-sunset.jpg",
     "icon": "🎖️",
     "title": "RAAF Virtual (RAAFV)",
     "featured": true,
@@ -17,6 +17,7 @@
     "description": "A community of passionate virtual aviators who strive to emulate the Royal Australian Air Force Roulettes through formation flying and aerobatic display workups within Microsoft Flight Simulator 2020/2024."
   },
   {
+    "image": "assets/img/home/hero/warbird-avenger.jpg",
     "icon": "🛩️",
     "title": "[Warbird Formation]",
     "description": "Historic aircraft formation flight — list aircraft types and formation size."
