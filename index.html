@@ -160,6 +160,27 @@
   .section-title p { color: var(--grey); max-width: 640px; margin: 10px auto 0; }
   .divider { width: 60px; height: 5px; background: var(--raaf-red); margin: 16px auto 0; clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%); }
 
+  /* FULL-BLEED PHOTO BACKGROUNDS on constrained sections */
+  #booking, #rules { position: relative; z-index: 0; }
+  #booking::before, #rules::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    width: 100vw; height: 100%;
+    transform: translateX(-50%);
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+  }
+  #booking::before {
+    background-image: linear-gradient(160deg, rgba(4,9,15,0.82) 0%, rgba(4,9,15,0.92) 100%), url('assets/img/home/gallery/paul-bennet-airshows-display.png');
+  }
+  #rules::before {
+    background-image: linear-gradient(160deg, rgba(4,9,15,0.85) 0%, rgba(4,9,15,0.93) 100%), url('assets/img/home/gallery/cockpit-formation-flight.png');
+  }
+  #booking .section-title h2, #rules .section-title h2 { color: white; }
+  #booking .section-title p, #rules .section-title p { color: #cfd8e6; }
+
   /* ABOUT */
   .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center; margin-top: 40px; }
   .about-grid .img-placeholder {
@@ -275,8 +296,16 @@
   }
 
   /* CONTACT / FOOTER */
-  .contact-band { background: var(--navy); color: white; text-align: center; padding: 60px 24px; }
-  .contact-band h2 { font-size: 1.8rem; margin-bottom: 10px; }
+  .contact-band {
+    background:
+      linear-gradient(160deg, rgba(4,9,15,0.85) 0%, rgba(4,9,15,0.93) 100%),
+      url('assets/img/home/gallery/pitts-red-inflight.png');
+    background-size: cover;
+    background-position: center 30%;
+    color: white; text-align: center; padding: 70px 24px;
+    border-top: 3px solid var(--raaf-red);
+  }
+  .contact-band h2 { font-size: 2rem; font-weight: 900; text-transform: uppercase; margin-bottom: 10px; }
   .contact-band p { color: #cfd8e6; max-width: 500px; margin: 0 auto 26px; }
   footer {
     background: var(--navy-deep);
@@ -477,7 +506,7 @@
 </section>
 
 <!-- SLOT BOOKING -->
-<section id="booking" class="bg-alt">
+<section id="booking">
   <div class="section-title">
     <h2>Slot Booking &amp; Registration</h2>
     <div class="divider"></div>
