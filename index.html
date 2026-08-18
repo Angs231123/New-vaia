@@ -337,6 +337,16 @@
   }
   .nav-login:hover { opacity: 1; border-color: var(--sky); color: var(--sky); }
   .nav-login .dot { width: 7px; height: 7px; border-radius: 50%; background: #2ecC71; }
+  .nav-vatsim {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--sky); border-radius: 6px;
+    padding: 7px 14px; font-size: 0.82rem; font-weight: 700; color: white;
+  }
+  .nav-vatsim:hover { background: #1569b0; }
+  .nav-vatsim-status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: #cfd8e6; }
+  .nav-vatsim-status .name { color: white; font-weight: 700; }
+  .nav-vatsim-status a { color: var(--sky); font-weight: 700; }
+  .nav-vatsim-status a:hover { text-decoration: underline; }
 
   /* PARTNER LOGO CARDS */
   .partner-card {
@@ -401,6 +411,7 @@
         <li><a href="https://discord.gg/auTg6SeTW8" target="_blank" rel="noopener">Discord</a></li>
       </ul>
     </nav>
+    <span id="vatsim-login-area"></span>
     <a class="nav-login" href="admin.html" title="Admin login — requires the site to be deployed on Cloudflare Pages, see README">
       <span class="dot"></span> Admin Login
     </a>
@@ -671,6 +682,30 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Public "Login with VATSIM" status — separate from admin login. Only
+  // works once deployed with VATSIM_CLIENT_ID/SECRET set (see README);
+  // on GitHub Pages or before that's configured, this quietly shows the
+  // plain login link and does nothing further.
+  (function () {
+    var area = document.getElementById('vatsim-login-area');
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    fetch('/api/auth/vatsim/me')
+      .then(function (r) { if (!r.ok) throw new Error('no api'); return r.json(); })
+      .then(function (me) {
+        if (me.loggedIn) {
+          area.innerHTML = '<span class="nav-vatsim-status">' +
+            '<span class="name">' + esc(me.name || ('CID ' + me.cid)) + '</span>' +
+            '<a href="/api/auth/vatsim/logout">Log out</a>' +
+            '</span>';
+        } else {
+          area.innerHTML = '<a class="nav-vatsim" href="/api/auth/vatsim/login">Login with VATSIM</a>';
+        }
+      })
+      .catch(function () {
+        area.innerHTML = '<a class="nav-vatsim" href="/api/auth/vatsim/login">Login with VATSIM</a>';
+      });
+  })();
 
   // Performers: try the live API first (Cloudflare Pages), fall back to the
   // bundled static JSON (works even on plain GitHub Pages with no backend).

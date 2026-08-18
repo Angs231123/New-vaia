@@ -79,6 +79,39 @@ Pages — Pages Functions/KV are Cloudflare-specific). Steps, all one-time:
   requires a valid admin session and overwrites the KV value with the
   posted JSON array.
 
+## "Login with VATSIM" — setup
+
+This is a **public feature, separate from admin login above** — any
+VATSIM member can use it to verify who they are on the site (shows their
+name in the nav with a logout link). It does **not** grant admin access;
+admin stays gated by the username/password from the previous section.
+
+1. **Register an OAuth application** at https://auth.vatsim.net/ (the
+   VATSIM Auth Portal). This requires creating an organisation and
+   waiting for VATSIM to approve it before you can generate a client —
+   that approval step is outside anyone's control but VATSIM's, so start
+   this early if you want the feature live for a specific date.
+2. Once approved, generate an OAuth2 client to get a **Client ID** and
+   **Client Secret**.
+3. Set the client's **Redirect URI** to:
+   ```
+   https://vaustralianintlairshow.com/api/auth/vatsim/callback
+   ```
+   (exact path — the code expects requests to land there specifically).
+4. Set two more environment variables on the Cloudflare project, same
+   place as the admin ones: `VATSIM_CLIENT_ID` and `VATSIM_CLIENT_SECRET`.
+5. Redeploy. The "Login with VATSIM" button in the nav will start working
+   — before this is configured, clicking it just shows a plain message
+   explaining it's not set up yet, nothing breaks.
+
+The endpoints used (`auth.vatsim.net/oauth/authorize`, `/oauth/token`,
+`/api/user`, scopes `full_name` + `vatsim_details`) were cross-checked
+against multiple independent real integrations (a Laravel Socialite
+provider, a phpVMS plugin, community source code) since this sandbox
+can't load vatsim.dev directly to verify from the primary source — worth
+a final check against the official docs once you're registering the app,
+but confidence is high.
+
 ## VATSIM vSOA compliance — status
 
 - ✅ Real VATSIM logo, linked to `vatsim.net`, in the homepage Partners section

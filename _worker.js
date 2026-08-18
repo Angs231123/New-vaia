@@ -4,6 +4,9 @@
 // works the same regardless of which Cloudflare deploy path is used.
 
 const COOKIE_NAME = "vaia_session";
+const VATSIM_COOKIE_NAME = "vaia_vatsim";
+const VATSIM_STATE_COOKIE = "vaia_vatsim_state";
+const VATSIM_AUTH_BASE = "https://auth.vatsim.net";
 
 async function hmac(secret, data) {
   const key = await crypto.subtle.importKey(
@@ -60,15 +63,21 @@ function readCookie(request, name) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
-function sessionCookieHeader(token, { maxAge = 60 * 60 * 12, clear = false } = {}) {
+function sessionCookieHeader(token, { name = COOKIE_NAME, maxAge = 60 * 60 * 12, clear = false } = {}) {
   if (clear) {
-    return `${COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
+    return `${name}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`;
   }
-  return `${COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
+  return `${name}=${encodeURIComponent(token)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
 }
 
 async function getSession(request, env) {
   const token = readCookie(request, COOKIE_NAME);
+  if (!token) return null;
+  return verifySession(token, env.SESSION_SECRET);
+}
+
+async function getVatsimSession(request, env) {
+  const token = readCookie(request, VATSIM_COOKIE_NAME);
   if (!token) return null;
   return verifySession(token, env.SESSION_SECRET);
 }
@@ -112,6 +121,107 @@ async function handleMe(request, env) {
   const session = await getSession(request, env);
   if (!session) return Response.json({ loggedIn: false });
   return Response.json({ loggedIn: true, username: session.username || null, admin: !!session.admin });
+}
+
+// Public "Login with VATSIM" — separate from the admin username/password
+// login above. Any VATSIM member can use this; it doesn't grant admin
+// access, it just verifies who someone is via VATSIM Connect (OAuth2).
+async function handleVatsimLogin(request, env) {
+  if (!env.VATSIM_CLIENT_ID) {
+    return new Response(
+      "VATSIM login isn't configured yet — set VATSIM_CLIENT_ID and VATSIM_CLIENT_SECRET in this project's environment variables. See the README.",
+      { status: 501 }
+    );
+  }
+  const url = new URL(request.url);
+  const redirectUri = `${url.origin}/api/auth/vatsim/callback`;
+  const state = crypto.randomUUID();
+
+  const authorizeUrl = new URL(`${VATSIM_AUTH_BASE}/oauth/authorize`);
+  authorizeUrl.searchParams.set("client_id", env.VATSIM_CLIENT_ID);
+  authorizeUrl.searchParams.set("redirect_uri", redirectUri);
+  authorizeUrl.searchParams.set("response_type", "code");
+  authorizeUrl.searchParams.set("scope", "full_name vatsim_details");
+  authorizeUrl.searchParams.set("state", state);
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: authorizeUrl.toString(),
+      "Set-Cookie": `${VATSIM_STATE_COOKIE}=${state}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+    },
+  });
+}
+
+async function handleVatsimCallback(request, env) {
+  const url = new URL(request.url);
+  const code = url.searchParams.get("code");
+  const state = url.searchParams.get("state");
+  const expectedState = readCookie(request, VATSIM_STATE_COOKIE);
+
+  if (!code || !state || !expectedState || state !== expectedState) {
+    return new Response("VATSIM login failed: invalid or expired state. Please try again.", { status: 400 });
+  }
+  if (!env.VATSIM_CLIENT_ID || !env.VATSIM_CLIENT_SECRET || !env.SESSION_SECRET) {
+    return new Response("VATSIM login isn't fully configured (missing VATSIM_CLIENT_ID / VATSIM_CLIENT_SECRET / SESSION_SECRET).", { status: 501 });
+  }
+
+  const redirectUri = `${url.origin}/api/auth/vatsim/callback`;
+
+  const tokenRes = await fetch(`${VATSIM_AUTH_BASE}/oauth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      grant_type: "authorization_code",
+      client_id: env.VATSIM_CLIENT_ID,
+      client_secret: env.VATSIM_CLIENT_SECRET,
+      redirect_uri: redirectUri,
+      code,
+    }),
+  });
+  if (!tokenRes.ok) {
+    return new Response(`VATSIM login failed: token exchange returned ${tokenRes.status}.`, { status: 502 });
+  }
+  const tokenData = await tokenRes.json();
+
+  const userRes = await fetch(`${VATSIM_AUTH_BASE}/api/user`, {
+    headers: { Authorization: `Bearer ${tokenData.access_token}`, Accept: "application/json" },
+  });
+  if (!userRes.ok) {
+    return new Response(`VATSIM login failed: could not fetch profile (${userRes.status}).`, { status: 502 });
+  }
+  const userData = await userRes.json();
+  const cid = userData?.data?.cid;
+  const fullName = userData?.data?.personal?.name_full || null;
+  if (!cid) {
+    return new Response("VATSIM login failed: no CID returned.", { status: 502 });
+  }
+
+  const session = await createSession(
+    { cid: String(cid), name: fullName, exp: Date.now() + 1000 * 60 * 60 * 12 },
+    env.SESSION_SECRET
+  );
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      Location: "/",
+      "Set-Cookie": sessionCookieHeader(session, { name: VATSIM_COOKIE_NAME }),
+    },
+  });
+}
+
+function handleVatsimLogout() {
+  return new Response(null, {
+    status: 302,
+    headers: { Location: "/", "Set-Cookie": sessionCookieHeader(null, { name: VATSIM_COOKIE_NAME, clear: true }) },
+  });
+}
+
+async function handleVatsimMe(request, env) {
+  const session = await getVatsimSession(request, env);
+  if (!session) return Response.json({ loggedIn: false });
+  return Response.json({ loggedIn: true, cid: session.cid, name: session.name || null });
 }
 
 async function handleResourceGet(request, env, kvKey, staticPath) {
@@ -159,6 +269,11 @@ export default {
     if (pathname === "/api/auth/login" && method === "POST") return handleLogin(request, env);
     if (pathname === "/api/auth/logout") return handleLogout();
     if (pathname === "/api/auth/me") return handleMe(request, env);
+
+    if (pathname === "/api/auth/vatsim/login") return handleVatsimLogin(request, env);
+    if (pathname === "/api/auth/vatsim/callback") return handleVatsimCallback(request, env);
+    if (pathname === "/api/auth/vatsim/logout") return handleVatsimLogout();
+    if (pathname === "/api/auth/vatsim/me") return handleVatsimMe(request, env);
 
     if (pathname === "/api/performers") {
       if (method === "GET") return handleResourceGet(request, env, "performers", "/data/performers.json");
